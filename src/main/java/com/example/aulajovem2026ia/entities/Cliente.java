@@ -1,16 +1,13 @@
 package com.example.aulajovem2026ia.entities;
 
-public class Usuario {
+public class Cliente {
 
-    public Usuario() {
+    public Cliente() {
         this.id = 1L;
     }
 
-    public Usuario(String nome, String cpf, String dataNascimento) {
+    public Cliente(String cliente) {
         this.id = 1000L;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
     }
 
     private Long id;
@@ -22,13 +19,12 @@ public class Usuario {
         return this.id;
     }
 
-    public String getNome(){
+    public String getNome() {
         return this.nome;
     }
+
     public void setNome(String nome) {
-        if (this.nome.isEmpty()) {
-            this.nome = nome;
-        }
+        this.nome = nome;
     }
 
     public String getCpf(){
@@ -44,6 +40,5 @@ public class Usuario {
     public void setDataNascimento(String dataNascimento){
         this.dataNascimento = dataNascimento;
     }
-
 
 }// fim da minha classe.

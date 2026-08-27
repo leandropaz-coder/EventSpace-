@@ -24,22 +24,29 @@ public class Sala {
     }
 
     public String getNome(){
-        return this.nome;}
+        return this.nome;
+    }
     public void setNome(String nome){
-        this.nome = nome;}
+        this.nome = nome;
+    }
 
     public String getNumero(){
-        return this.numero;}
+        return this.numero;
+    }
     public void setNumero(String numero){
-        this.numero = numero;}
+        this.numero = numero;
+    }
 
     public String getAndar(){
-        return this.andar;}
+        return this.andar;
+    }
     public void setAndar(String andar){
-        this.andar = andar;}
+        this.andar = andar;
+    }
 
     public String getClasse(){
-        return this.classe;}
+        return this.classe;
+    }
     public void setClasse(String classe){
         this.classe = classe;}
 

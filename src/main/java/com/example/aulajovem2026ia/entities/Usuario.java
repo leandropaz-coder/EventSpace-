@@ -1,5 +1,7 @@
 package com.example.aulajovem2026ia.entities;
 
+import java.time.LocalDateTime;
+
 public class Usuario {
 
     public Usuario() {
@@ -17,6 +19,33 @@ public class Usuario {
     private String nome;
     private String cpf;
     private String dataNascimento;
+    private LocalDateTime dataCadastro;
+    private LocalDateTime dataAtualizacao;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 
     public Long getId() {
         return this.id;

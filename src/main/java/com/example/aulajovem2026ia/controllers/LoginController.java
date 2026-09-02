@@ -1,5 +1,7 @@
-package com.example.aulajovem2026ia.DTO;
+package com.example.aulajovem2026ia.controllers;
 
+import com.example.aulajovem2026ia.DTO.LoginRequest;
+import com.example.aulajovem2026ia.DTO.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

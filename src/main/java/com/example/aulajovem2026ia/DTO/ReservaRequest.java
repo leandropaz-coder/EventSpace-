@@ -1,12 +1,14 @@
 package com.example.aulajovem2026ia.DTO;
 
-public class UsuarioRequest {
+import com.example.aulajovem2026ia.entities.Reserva;
 
-    public UsuarioRequest(){}
+public class ReservaRequest {
+
+    public ReservaRequest(){}
 
     private String nome;
     private String cpf;
-    private String dataNascimento;
+    private String codigo;
 
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
@@ -14,7 +16,7 @@ public class UsuarioRequest {
     public String getCpf() {return cpf;}
     public void setCpf(String cpf) {this.cpf = cpf;}
 
-    public String getDataNascimento() {return dataNascimento;}
-    public void setDataNascimento(String dataNascimento) {this.dataNascimento = dataNascimento;}
+    public String getCodigo() {return codigo;}
+    public void setCodigo(String codigo) {this.codigo = codigo;}
 
 } //fim da minha classe.

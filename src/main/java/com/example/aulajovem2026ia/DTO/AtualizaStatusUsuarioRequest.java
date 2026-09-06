@@ -14,4 +14,5 @@ public class AtualizaStatusUsuarioRequest {
     public void setStatus(String status) {
         this.status = status;
     }
-}
+
+} //fim da minha classe.

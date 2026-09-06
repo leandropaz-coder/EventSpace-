@@ -2,9 +2,12 @@ package com.example.aulajovem2026ia.entities;
 
 public class Sala {
 
+    // Construtor padrão
     public Sala(){
         this.id = 1L;
     }
+
+    // Construtor completo com todos os parâmetros
     public Sala(String nome){
         this.id = 1000L;
         this.nome = nome;
@@ -19,37 +22,27 @@ public class Sala {
     private String andar;
     private String classe;
 
+    public Sala(String leandro, String numero, String andar, String classe) {
+    }
+
+
     public Long getId(){
         return  this.id;
     }
 
-    public String getNome(){
-        return this.nome;
-    }
-    public void setNome(String nome){
-        this.nome = nome;
-    }
+    // Getters e Setters
+    public String getNome() {return nome;}
+    public static void setNome(String nome){ nome = nome;}
 
-    public String getNumero(){
-        return this.numero;
-    }
-    public void setNumero(String numero){
-        this.numero = numero;
-    }
+    public String getNumero(){ return numero;}
+    public static void setNumero(String numero){ numero = numero;}
 
-    public String getAndar(){
-        return this.andar;
-    }
-    public void setAndar(String andar){
-        this.andar = andar;
-    }
+    public String getAndar(){ return andar;}
+    public static void setAndar(String andar){ andar = andar;}
 
-    public String getClasse(){
-        return this.classe;
-    }
-    public void setClasse(String classe){
-        this.classe = classe;}
+    public String getClasse(){return classe;}
+    public static void setClasse(String classe){ classe = classe;}
 
 }// fim da minha classe.
-
+// porque está dando erro com this.     public static void setClasse(String classe){this.classe = classe;}
 

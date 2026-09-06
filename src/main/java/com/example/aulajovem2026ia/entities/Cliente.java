@@ -28,14 +28,14 @@ public class Cliente {
     }
 
     public String getCpf(){
-        return this.cpf;
+        return cpf;
     }
     public void setCpf(String cpf){
         this.cpf = cpf;
     }
 
     public String getDataNascimento(){
-        return this.dataNascimento;
+        return dataNascimento;
     }
     public void setDataNascimento(String dataNascimento){
         this.dataNascimento = dataNascimento;

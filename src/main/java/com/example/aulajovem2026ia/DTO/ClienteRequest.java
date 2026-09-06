@@ -1,8 +1,8 @@
 package com.example.aulajovem2026ia.DTO;
 
-public class UsuarioRequest {
+public class ClienteRequest {
 
-    public UsuarioRequest(){}
+    public ClienteRequest(){}
 
     private String nome;
     private String cpf;

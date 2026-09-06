@@ -26,7 +26,6 @@ public class Usuario {
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -34,7 +33,6 @@ public class Usuario {
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
-
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
@@ -42,7 +40,6 @@ public class Usuario {
     public LocalDateTime getDataCadastro() {
         return dataCadastro;
     }
-
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }

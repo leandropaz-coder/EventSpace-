@@ -25,9 +25,4 @@ public class LoginRequest {
 
     private String login;
 
-
-
-
-
-
-}
+} //fim da minha classe.

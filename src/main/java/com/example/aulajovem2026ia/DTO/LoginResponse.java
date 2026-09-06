@@ -12,5 +12,5 @@ public class LoginResponse {
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
-}
+} //fim da minha classe.
 

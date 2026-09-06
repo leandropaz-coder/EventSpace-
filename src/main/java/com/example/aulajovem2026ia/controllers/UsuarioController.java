@@ -97,4 +97,4 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-}
+} //fim da minha classe.

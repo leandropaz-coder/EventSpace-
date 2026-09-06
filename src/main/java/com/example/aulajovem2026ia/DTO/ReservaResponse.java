@@ -1,10 +1,10 @@
 package com.example.aulajovem2026ia.DTO;
 
-public class UsuarioResponse {
+public class ReservaResponse {
 
-    public  UsuarioResponse(){}
+    public  ReservaResponse(){}
 
-    public UsuarioResponse(Long id, String mensagem) {
+    public ReservaResponse(Long id, String mensagem) {
         this.id = id;
         this.mensagem = mensagem;
     }

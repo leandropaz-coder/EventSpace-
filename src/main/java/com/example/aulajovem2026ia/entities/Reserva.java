@@ -18,21 +18,21 @@ public class Reserva {
     public  Long getId(){ return this.id; }
 
     public String getNome(){
-        return  this.nome;
+        return nome;
     }
     public void setNome(String nome){
         this.nome = nome;
     }
 
     public String getCpf(){
-        return this.cpf;
+        return cpf;
     }
     public void setCpf(String cpf){
         this.cpf = cpf;
     }
 
     public  String getCodigo(){
-        return  this.codigo;
+        return codigo;
     }
     public void setCodigo(){
         this.codigo = codigo;

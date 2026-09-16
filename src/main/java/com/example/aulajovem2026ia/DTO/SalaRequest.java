@@ -8,16 +8,35 @@ public class SalaRequest {
     private String andar;
     private String classe;
 
-    public String getNome() {return nome;}
-    public void setNome(String nome) {this.nome = nome;}
+    public String getNome() {
+        return nome;
+    }
 
-    public String getNumero() {return numero;}
-    public void setNumero(String numero) {this.numero = numero;}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public String getAndar() {return andar;}
-    public void setAndar(String andar) {this.andar = andar;}
+    public String getNumero() {
+        return numero;
+    }
 
-    public String getClasse() {return classe;}
-    public void setClasse(String classe) {this.classe = classe;}
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
 
+    public String getAndar() {
+        return andar;
+    }
+
+    public void setAndar(String andar) {
+        this.andar = andar;
+    }
+
+    public String getClasse() {
+        return classe;
+    }
+
+    public void setClasse(String classe) {
+        this.classe = classe;
+    }
 } //fim da minha classe.

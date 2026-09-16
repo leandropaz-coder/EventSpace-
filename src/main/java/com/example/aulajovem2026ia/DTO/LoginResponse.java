@@ -3,6 +3,7 @@ package com.example.aulajovem2026ia.DTO;
 public class LoginResponse {
 
     public LoginResponse(){}
+
     private String mensagem;
 
     public String getMensagem() {

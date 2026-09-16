@@ -30,7 +30,7 @@ public class SalaController {
     @GetMapping("/empresa/{empresaId}")
     public Sala ConsultaSalaPorEmpresa(@PathVariable Long empresaId) {
         Sala salaContrutorCompleto =
-                new Sala("Leandro", "Numero", "Andar", "Classe");
+                new Sala("Leandro", "Numero", "Andar", "Classe", "A");
         return salaContrutorCompleto;
     }
 

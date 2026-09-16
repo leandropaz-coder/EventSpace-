@@ -1,20 +1,28 @@
 package com.example.aulajovem2026ia.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
 
+// Construtor padrão
+@Entity
 public class Usuario {
 
-    public Usuario() {
-        this.id = 1L;
-    }
+// Construtor completo com todos os parâmetros
+    public Usuario(){}
+
 
     public Usuario(String nome, String cpf, String dataNascimento) {
-        this.id = 1000L;
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String cpf;
@@ -22,44 +30,62 @@ public class Usuario {
     private LocalDateTime dataCadastro;
     private LocalDateTime dataAtualizacao;
     private String status;
+    private String senha;
 
-    public String getStatus() {
-        return status;
+
+// Getters e Setters
+    public String getSenha() {
+        return senha;
     }
-    public void setStatus(String status) {
-        this.status = status;
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
+
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDateTime getDataCadastro() {
         return dataCadastro;
     }
+
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    public Long getId() {
+    public Long getId(){
         return this.id;
     }
 
     public String getNome(){
         return this.nome;
     }
-    public void setNome(String nome) {
-        if (this.nome.isEmpty()) {
-            this.nome = nome;
-        }
+
+    public void setNome(String nome){
+        this.nome = nome;
     }
 
     public String getCpf(){
         return this.cpf;
     }
+
     public void setCpf(String cpf){
         this.cpf = cpf;
     }
@@ -67,9 +93,9 @@ public class Usuario {
     public String getDataNascimento(){
         return this.dataNascimento;
     }
+
     public void setDataNascimento(String dataNascimento){
         this.dataNascimento = dataNascimento;
     }
-
 
 }// fim da minha classe.

@@ -7,8 +7,12 @@ public class AtualizaStatusSalaRequest {
 
     public String status;
 
-    public String getStatus() {return status;}
+    public String getStatus() {
+        return status;
+    }
 
-    public void setStatus(String status) {this.status = status;}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 } //fim da minha classe.

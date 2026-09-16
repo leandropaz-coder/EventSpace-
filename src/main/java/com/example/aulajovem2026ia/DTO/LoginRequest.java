@@ -1,9 +1,11 @@
 package com.example.aulajovem2026ia.DTO;
 
 public class LoginRequest {
-    public LoginRequest(){
 
-    }
+    public LoginRequest(){}
+
+    private String senha;
+    private String login;
 
     public String getSenha() {
         return senha;
@@ -13,8 +15,6 @@ public class LoginRequest {
         this.senha = senha;
     }
 
-    private String senha;
-
     public String getLogin() {
         return login;
     }
@@ -22,7 +22,5 @@ public class LoginRequest {
     public void setLogin(String login) {
         this.login = login;
     }
-
-    private String login;
 
 } //fim da minha classe.

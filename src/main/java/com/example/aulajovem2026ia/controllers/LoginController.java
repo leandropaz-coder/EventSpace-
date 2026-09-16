@@ -2,6 +2,9 @@ package com.example.aulajovem2026ia.controllers;
 
 import com.example.aulajovem2026ia.DTO.LoginRequest;
 import com.example.aulajovem2026ia.DTO.LoginResponse;
+import com.example.aulajovem2026ia.entities.Usuario;
+import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @PostMapping
-    public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequest loginRequest)  {
+    public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequest loginRequest){
 
-        if (loginRequest.getLogin().equals("string")&& loginRequest.getSenha().equals("string")) {
+        //Usuario usuarioBanco = usuarioRepository.findAll().stream().filter()
 
-            LoginResponse LoginResponse = new LoginResponse();
-            LoginResponse.setMensagem("Bem vindo! Ao Sistema de alunos");
+        if (usuarioRepository.existsAllByCpfAndSenha(loginRequest.getLogin(),loginRequest.getSenha())) {
+
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setMensagem("Bem vindo! Ao Sistema EventSpace!");
+
+            return ResponseEntity.ok(loginResponse);
     }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

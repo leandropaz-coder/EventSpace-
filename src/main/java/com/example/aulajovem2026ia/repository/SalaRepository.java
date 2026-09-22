@@ -11,11 +11,6 @@ import java.util.Optional;
 @Repository
 public interface SalaRepository extends JpaRepository<Sala,Long> {
 
-    // Criar para fazer o login
-    boolean existsAllByCpfCnpjAndSenha(String cpfCnpj, String senha);
 
-    Optional<Sala> getSalaByCpfCnpj(String cpfCnpj);
-
-    Optional<List<Sala>> getSalaByStatus(String status);
 
 }//fim da minha classe.

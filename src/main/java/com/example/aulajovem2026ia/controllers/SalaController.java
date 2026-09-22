@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class SalaController {
     @GetMapping
     public String ConsultaSala() {
+
         return "Hellor Sala";
     }
 
@@ -42,6 +43,7 @@ public class SalaController {
         salaBanco.setAndar(salaRequest.getAndar());
         salaBanco.setClasse(salaRequest.getClasse());
         salaBanco.setStatus("A");
+
 
         return ResponseEntity.ok(new SalaResponse(salaBanco.getId(),
                 "Sala Atualizado com sucesso!"));

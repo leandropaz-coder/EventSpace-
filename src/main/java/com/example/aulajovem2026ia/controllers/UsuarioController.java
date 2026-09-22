@@ -1,9 +1,9 @@
 package com.example.aulajovem2026ia.controllers;
 
-import com.example.aulajovem2026ia.DTO.AtualizaStatusUsuarioRequest;
-import com.example.aulajovem2026ia.DTO.UsuarioRequest;
-import com.example.aulajovem2026ia.DTO.UsuarioResponse;
+import com.example.aulajovem2026ia.DTO.*;
+import com.example.aulajovem2026ia.entities.Empresa;
 import com.example.aulajovem2026ia.entities.Usuario;
+import com.example.aulajovem2026ia.repository.EmpresaRepository;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,18 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    private EmpresaRepository empresaRepository;
+
 
     @GetMapping
-    public List<Usuario> ConsultaUsuario(){
+    public List<Usuario> ConsultaUsuario() {
         return usuarioRepository.findAll();
+        public List<UsuarioConsultaResponse> ConsultaUsuario(){
+
+            return usuarioRepository.findAll()
+                    .stream()
+                    .map(UsuarioConsultaResponse::new).toList();
+        }
     }
 
     @GetMapping("/{id}")
@@ -44,12 +52,18 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioResponse>CadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest){
+        var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
+
+                if(empresaBanco == null){
+                    return ResponseEntity.notFound().build();
+                }
 
         Usuario usuarioBanco = new Usuario();
         usuarioBanco.setNome(usuarioRequest.getNome());
         usuarioBanco.setCpf(usuarioRequest.getCpf());
         usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
         usuarioBanco.setSenha(usuarioRequest.getSenha());
+        usuarioBanco.setEmpresa(empresaBanco);
 
         usuarioBanco.setDataCadastro(LocalDateTime.now());
         usuarioBanco.setStatus("A");
@@ -68,6 +82,12 @@ public class UsuarioController {
 
 
         if (usuarioBanco !=null){
+// regras para alterar, o metodo lista usuário, recebe o cnpj
+            var empresaBanco = empresaRepository.(usuarioRequest.getEmpresa_id()).orElse(null);
+                    if(usuarioBanco == null){
+                        return ResponseEntity.notFound().build();
+                    }
+
             usuarioBanco.setNome(usuarioRequest.getNome());
             usuarioBanco.setCpf(usuarioRequest.getCpf());
             usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());

@@ -9,6 +9,17 @@ public class UsuarioRequest {
     private String dataNascimento;
     private String senha;
 
+
+    public  Long empresa_id;
+
+    public Long getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(Long empresa_id) {
+        this.empresa_id = empresa_id;
+    }
+
     public String getSenha() {
         return senha;
     }

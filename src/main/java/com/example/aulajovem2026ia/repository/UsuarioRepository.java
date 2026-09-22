@@ -13,7 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
   // Criar para fazer o login
     boolean existsAllByCpfAndSenha(String cpf, String senha);
 
-    Optional<Usuario> getUsuarioByCpfCnpj(String cpfCnpj);
+    Optional<Usuario> getUsuarioByCpf(String cpfCnpj);
 
     Optional<List<Usuario>> getUsuarioByStatus(String status);
 

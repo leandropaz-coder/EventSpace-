@@ -1,9 +1,6 @@
 package com.example.aulajovem2026ia.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -32,8 +29,20 @@ public class Usuario {
     private String status;
     private String senha;
 
+// Criar usuario para empresa, many é o usuario para FK
+    @ManyToOne
+    @JoinColumn(name = "empresa_id",referencedColumnName = "id")
+    private Empresa empresa;
 
-// Getters e Setters
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    // Getters e Setters
     public String getSenha() {
         return senha;
     }

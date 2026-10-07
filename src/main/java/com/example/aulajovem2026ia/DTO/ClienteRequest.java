@@ -40,4 +40,5 @@ public class ClienteRequest {
     public void setRenda(double renda) {
         this.renda = renda;
     }
+
 } //fim da minha classe.

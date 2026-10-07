@@ -18,20 +18,37 @@ public class Curso {
 
     @Column(nullable = false)
     private String titulo;
+
     private String descricao;
 
 // lista de alunos que vai fazer um controle que não apaga tudo. Ele vai mostrar o qual vc apagou da lista.
-    @ManyToMany
+    @ManyToMany(mappedBy = "cursos")
     private Set<Usuario> alunos = new HashSet<>();
 
     @OneToOne
     private Usuario usuarioCadastro;
 
-    public void adicionarAluno
-
+    public void adicionarAluno(Usuario usuario){
+        this.alunos.add(usuario);
+        usuario.getCursos().add(this);
+    }
 
 // Criar getter e setter
+public Set<Usuario> getAlunos() {
+    return alunos;
+}
 
+    public void setAlunos(Set<Usuario> alunos) {
+        this.alunos = alunos;
+    }
+
+    public Usuario getUsuarioCadastro() {
+        return usuarioCadastro;
+    }
+
+    public void setUsuarioCadastro(Usuario usuarioCadastro) {
+        this.usuarioCadastro = usuarioCadastro;
+    }
 
     public Long getId() {
         return id;
@@ -57,20 +74,5 @@ public class Curso {
         this.descricao = descricao;
     }
 
-    public Set<Usuario> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(Set<Usuario> alunos) {
-        this.alunos = alunos;
-    }
-
-    public Usuario getUsuarioCadastro() {
-        return usuarioCadastro;
-    }
-
-    public void setUsuarioCadastro(Usuario usuarioCadastro) {
-        this.usuarioCadastro = usuarioCadastro;
-    }
 }//fim da minha classe.
 

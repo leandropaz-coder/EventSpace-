@@ -8,11 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa,Long> {
-    // Procurar se a empresa existe.Como fazer?Pq não temos uma consulta no CNPJ.Criar dessa maneira:
-    //Consulta empresa por cnpj
+// Procurar se a empresa existe.Como fazer?Pq não temos uma consulta no CNPJ.Criar dessa maneira:
+//Consulta empresa por cnpj
     Optional<Empresa> getEmpresaByCnpj(String cnpj);
-
-
-
 
 } //fim da minha classe.

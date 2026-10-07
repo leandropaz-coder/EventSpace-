@@ -3,6 +3,8 @@ package com.example.aulajovem2026ia.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 // Construtor padrão
 @Entity
@@ -29,6 +31,16 @@ public class Usuario {
     private String status;
     private String senha;
 
+
+// lista de alunos que vai fazer um controle que não apaga tudo. Ele vai mostrar o qual vc apagou da lista.
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "usuario_cursos",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private Set<Curso> cursos = new HashSet<>();
+
 // Criar usuario para empresa, many é o usuario para FK
     @ManyToOne
     @JoinColumn(name = "empresa_id",referencedColumnName = "id")
@@ -43,16 +55,46 @@ public class Usuario {
     }
 
     // Getters e Setters
-    public String getSenha() {
-        return senha;
-    }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     public LocalDateTime getDataAtualizacao() {
@@ -71,40 +113,19 @@ public class Usuario {
         this.status = status;
     }
 
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public Long getId(){
-        return this.id;
+    public Set<Curso> getCursos() {
+        return cursos;
     }
 
-    public String getNome(){
-        return this.nome;
+    public void setCursos(Set<Curso> cursos) {
+        this.cursos = cursos;
     }
-
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-
-    public String getCpf(){
-        return this.cpf;
-    }
-
-    public void setCpf(String cpf){
-        this.cpf = cpf;
-    }
-
-    public String getDataNascimento(){
-        return this.dataNascimento;
-    }
-
-    public void setDataNascimento(String dataNascimento){
-        this.dataNascimento = dataNascimento;
-    }
-
 }// fim da minha classe.

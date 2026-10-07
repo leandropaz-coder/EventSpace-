@@ -23,9 +23,10 @@ public class EmpresaController {
 
     @GetMapping
     public List<EmpresaConsultaResponse> listarTodos(){
-        return empresaRepository.findAll()list<Empresa>
-        .stream()
-        .map(EmpresaConsultaResponse);
+
+        return empresaRepository.findAll()
+                .stream()
+                .map(EmpresaConsultaResponse::new).toList();
     }
 
     // Metodo para chamar mais do post "/criar"
@@ -56,10 +57,12 @@ public class EmpresaController {
         var empresaBanco = empresaRepository.getEmpresaByCnpj(cnpj).orElse(null);
         if (empresaBanco == null)
             return ResponseEntity.notFound().build();
+
         var usuarioEmpresaBanco = empresaBanco.getUsuarios()
                 .stream()
                 .map(UsuarioConsultaResponse::new)
                 .toList();
+
         return ResponseEntity.ok(usuarioEmpresaBanco);
     }
 

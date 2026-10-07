@@ -18,45 +18,44 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private EmpresaRepository empresaRepository;
 
-
     @GetMapping
-    public List<Usuario> ConsultaUsuario() {
-        return usuarioRepository.findAll();
-        public List<UsuarioConsultaResponse> ConsultaUsuario(){
+    public List<UsuarioConsultaResponse> ConsultaUsuario(){
 
-            return usuarioRepository.findAll()
-                    .stream()
-                    .map(UsuarioConsultaResponse::new).toList();
-        }
+        return usuarioRepository.findAll()
+                .stream()
+                .map(UsuarioConsultaResponse::new).toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> ConsultaUsuarioPorId(@PathVariable Long id){
+    public ResponseEntity<UsuarioConsultaResponse> ConsultaUsuarioPorId(@PathVariable Long id){
         var usuario = usuarioRepository.findById(id).orElse(null);
 
-        if (usuario == null){
+        if(usuario == null){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(new UsuarioConsultaResponse(usuario));
     }
 
     @GetMapping("/empresa/{empresaId}")
     public Usuario ConsultaUsuarioPorEmpresa(@PathVariable Long empresaId){
         Usuario usuarioContrutorCompleto =
-                new Usuario("Leandro","0213154545","03/05/1982");
-                return  usuarioContrutorCompleto;
+                new Usuario("Samuel","063720095945459","27/12/1193");
+        return usuarioContrutorCompleto;
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse>CadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest){
+    public ResponseEntity<UsuarioResponse> CadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest){
+
         var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
 
-                if(empresaBanco == null){
-                    return ResponseEntity.notFound().build();
-                }
+        if(empresaBanco == null){
+            return ResponseEntity.notFound().build();
+        }
 
         Usuario usuarioBanco = new Usuario();
         usuarioBanco.setNome(usuarioRequest.getNome());
@@ -72,36 +71,36 @@ public class UsuarioController {
         usuarioRepository.save(usuarioBanco);
 
         return ResponseEntity.ok(new UsuarioResponse(usuarioBanco.getId(),
-                "Usuario cadastro com sucesso!"));
+                "Cadastro com sucesso!"));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> AtualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest) {
+        @PutMapping("/{id}")
+        public ResponseEntity<UsuarioResponse>
+        AtualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest){
+            //Consulta no banco
+            Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);
 
-        Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);
+            if(usuarioBanco != null){
 
+                var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
+    // regras para alterar, o metodo lista usuário, recebe o cnpj
+                if(empresaBanco == null){
+                    return ResponseEntity.notFound().build();
+                }
 
-        if (usuarioBanco !=null){
-// regras para alterar, o metodo lista usuário, recebe o cnpj
-            var empresaBanco = empresaRepository.(usuarioRequest.getEmpresa_id()).orElse(null);
-                    if(usuarioBanco == null){
-                        return ResponseEntity.notFound().build();
-                    }
+                usuarioBanco.setEmpresa(empresaBanco);
+                usuarioBanco.setNome(usuarioRequest.getNome());
+                usuarioBanco.setCpf(usuarioRequest.getCpf());
+                usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
+                usuarioBanco.setDataAtualizacao(LocalDateTime.now());
+                usuarioBanco.setSenha(usuarioRequest.getSenha());
+                usuarioRepository.save(usuarioBanco);
 
-            usuarioBanco.setNome(usuarioRequest.getNome());
-            usuarioBanco.setCpf(usuarioRequest.getCpf());
-            usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
-            usuarioBanco.setDataAtualizacao(LocalDateTime.now());
-            usuarioBanco.setSenha(usuarioRequest.getSenha());
-            usuarioRepository.save(usuarioBanco);
-
-            return ResponseEntity.ok(new UsuarioResponse(usuarioBanco.getId(),
-                    "Usuario Atualizado com sucesso!"));
+                return ResponseEntity.ok(new UsuarioResponse(usuarioBanco.getId(),
+                        "UsuarioAtulizado com sucesso!"));
+            }
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.notFound().build();
-
-    }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<UsuarioResponse>

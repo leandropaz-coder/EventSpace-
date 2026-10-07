@@ -4,26 +4,44 @@ import com.example.aulajovem2026ia.entities.Empresa;
 
 public class EmpresaConsultaResponse {
 
-    public EmpresaConsultaResponse(Empresa empresa){
+
+    public EmpresaConsultaResponse() {
+    }
+
+    public EmpresaConsultaResponse(Empresa empresa) {
         this.cnpj = empresa.getCnpj();
         this.razaoSocial = empresa.getRazaoSocial();
         this.nomeFantasia = empresa.getNomeFantasia();
         this.inscricaoEstadual = empresa.getInscricaoEstadual();
         this.id = empresa.getId();
+
+
+        if(empresa.getUsuarios()!= null){
+            this.quantidadeUsuario = empresa.getUsuarios().size();
+        }else {
+            this.quantidadeUsuario = 0;
+        }
     }
-    if(empresa.getUsuarios()!= null){
-        this.quantidadeUsuario = empresa.getUsuarios().size();
-    }else{
-        this.quantidadeUsuario = 0;
-    }
+
     private Long id;
+
     private String razaoSocial;
+
     private String nomeFantasia;
+
     private String cnpj;
+
     private String inscricaoEstadual;
+
     private int quantidadeUsuario;
 
-// Criar getter e setter
+    public int getQuantidadeUsuario() {
+        return quantidadeUsuario;
+    }
+
+    public void setQuantidadeUsuario(int quantidadeUsuario) {
+        this.quantidadeUsuario = quantidadeUsuario;
+    }
 
     public Long getId() {
         return id;
@@ -57,19 +75,11 @@ public class EmpresaConsultaResponse {
         this.cnpj = cnpj;
     }
 
-    public String getInscricaoEstadual() {
+    public String getInscricaoEstaual() {
         return inscricaoEstadual;
     }
 
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
-    }
-
-    public int getQuantidadeUsuario() {
-        return quantidadeUsuario;
-    }
-
-    public void setQuantidadeUsuario(int quantidadeUsuario) {
-        this.quantidadeUsuario = quantidadeUsuario;
+    public void setInscricaoEstaual(String inscricaoEstaual) {
+        this.inscricaoEstadual = inscricaoEstaual;
     }
 }//fim da minha classe.

@@ -65,7 +65,7 @@ public class CursoController {
         }
 
         if(cursoBanco.getAlunos().contains(usuarioBanco)){
-            throw  new IllegalArgumentException("Aluno Ja cadastrado nesse curso!");
+            throw  new IllegalArgumentException("Aluno já cadastrado nesse curso!");
         }
 
         cursoBanco.adicionarAluno(usuarioBanco);

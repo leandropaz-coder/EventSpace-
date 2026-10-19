@@ -1,6 +1,7 @@
 package com.example.aulajovem2026ia.utils;
 
-public class NumberUtils {
+
+public class OnlyNumber {
 
     /**
      * Remove todos os caracteres que não são dígitos de uma String.

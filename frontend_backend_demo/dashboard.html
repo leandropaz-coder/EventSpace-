@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EventSpace</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ========== Menu lateral ========== -->
+  <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+    <div class="sidebar__head">
+        <span class="sidebar__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>
+        </span>
+      <span class="sidebar__brand">EventSpace</span>
+
+      <!-- Desktop: recolher/expandir -->
+      <button class="sidebar__btn sidebar__collapse" id="sidebar-collapse" type="button" aria-label="Recolher menu" title="Recolher menu" aria-expanded="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <!-- Mobile: fechar -->
+      <button class="sidebar__btn sidebar__close" id="sidebar-close" type="button" aria-label="Fechar menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar__nav">
+      <ul class="sidebar__list">
+        <li>
+          <a class="sidebar__link" href="#usuario" data-section="usuario" title="Usuário">
+            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+            <span class="sidebar__label">Usuário</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar__link" href="#sala" data-section="sala" title="Sala">
+            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"/><path d="M15 9h4a1 1 0 0 1 1 1v11"/><path d="M2 21h20"/><path d="M8 9h3M8 13h3"/><circle cx="12.5" cy="17.5" r=".6" fill="currentColor"/></svg>
+            <span class="sidebar__label">Sala</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar__link" href="#cliente" data-section="cliente" title="Cliente">
+            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.4c2 .7 3.5 2.5 3.5 5.6"/></svg>
+            <span class="sidebar__label">Cliente</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar__link" href="#reserva" data-section="reserva" title="Reserva">
+            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg>
+            <span class="sidebar__label">Reserva</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar__footer">
+      <button class="sidebar__link sidebar__link--logout" id="logout" type="button" title="Sair">
+        <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+        <span class="sidebar__label">Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+  <!-- ========== Conteúdo principal ========== -->
+  <div class="main">
+    <header class="topbar">
+      <button class="hamburger" id="sidebar-open" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <span class="topbar__title" id="topbar-title">Usuário</span>
+    </header>
+
+    <main class="content">
+
+      <section class="view" id="view-usuario" hidden>
+        <div class="page-header">
+          <div>
+            <h1>Usuários</h1>
+            <p>Proprietários que administram as salas.</p>
+          </div>
+          <button class="btn" type="button">Novo usuário</button>
+        </div>
+        <div class="empty">
+          <h2>Nenhum usuário carregado</h2>
+          <p>A lista de usuários vai aparecer aqui quando for conectada ao back end.</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-sala" hidden>
+        <div class="page-header">
+          <div>
+            <h1>Salas</h1>
+            <p>Espaços disponíveis para eventos corporativos.</p>
+          </div>
+          <button class="btn" type="button">Nova sala</button>
+        </div>
+        <div class="empty">
+          <h2>Nenhuma sala carregada</h2>
+          <p>A lista de salas vai aparecer aqui quando for conectada ao back end.</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-cliente" hidden>
+        <div class="page-header">
+          <div>
+            <h1>Clientes</h1>
+            <p>Empresas e pessoas que reservam as salas.</p>
+          </div>
+          <button class="btn" type="button">Novo cliente</button>
+        </div>
+        <div class="empty">
+          <h2>Nenhum cliente carregado</h2>
+          <p>A lista de clientes vai aparecer aqui quando for conectada ao back end.</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-reserva" hidden>
+        <div class="page-header">
+          <div>
+            <h1>Reservas</h1>
+            <p>Agenda das salas por data e horário.</p>
+          </div>
+          <button class="btn" type="button">Nova reserva</button>
+        </div>
+        <div class="empty">
+          <h2>Nenhuma reserva carregada</h2>
+          <p>A lista de reservas vai aparecer aqui quando for conectada ao back end.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+</body>
+</html>

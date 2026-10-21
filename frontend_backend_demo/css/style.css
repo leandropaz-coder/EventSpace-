@@ -1,0 +1,303 @@
+/* ==========================================================================
+   style.css — estilos globais e da área de conteúdo principal
+   ========================================================================== */
+
+:root {
+  --font: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --bg: #f2f3f1;
+  --surface: #ffffff;
+  --ink: #1b2127;
+  --ink-soft: #5b6670;
+  --line: #dde0dc;
+
+  --brand: #c9962b;
+  --brand-ink: #17130a;
+  --focus: #2b6cd9;
+
+  --radius: 10px;
+  --topbar-h: 56px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Botões ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  background: var(--brand);
+  color: var(--brand-ink);
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.07);
+}
+
+/* ---------- Layout do dashboard ---------- */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0; /* evita estourar o flex em telas pequenas */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra superior (só aparece no mobile) */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: var(--topbar-h);
+  padding: 0 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar__title {
+  font-weight: 600;
+}
+
+.hamburger {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -0.5rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hamburger:hover {
+  background: #eceeea;
+}
+
+.hamburger svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------- Área de conteúdo ---------- */
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.view[hidden] {
+  display: none;
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  font-size: 1.625rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.page-header p {
+  margin-top: 0.25rem;
+  color: var(--ink-soft);
+}
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.empty h2 {
+  font-size: 1.0625rem;
+}
+
+.empty p {
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+
+/* ---------- Tela de login (index.html) ---------- */
+
+.login {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login__card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.login__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.login__mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #1d2329;
+  color: var(--brand);
+}
+
+.login__mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.login__brand strong {
+  display: block;
+  font-size: 1.125rem;
+  line-height: 1.2;
+}
+
+.login__brand span {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.login h1 {
+  font-size: 1.375rem;
+  margin-bottom: 1.25rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.field input {
+  min-height: 44px;
+  padding: 0 0.875rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #c4c9c3;
+  border-radius: 8px;
+}
+
+.field input:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 0;
+  border-color: var(--focus);
+}
+
+.login .btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 768px) {
+  .topbar {
+    display: none;
+  }
+
+  .content {
+    padding: 2.25rem 2.5rem 4rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.875rem;
+  }
+
+  .login__card {
+    padding: 2.5rem 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

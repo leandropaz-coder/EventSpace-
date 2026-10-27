@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define a codificação e adapta a largura da tela para celulares e tablets. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consulta e gerenciamento de clientes do EventSpace">
+  <title>Clientes | EventSpace</title>
+
+  <!-- Os caminhos são relativos à pasta frontend_backend_demo. -->
+  <link rel="stylesheet" href="css/cliente.css">
+  <script src="js/cliente.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <!-- Cabeçalho simples para identificar a aplicação e a tela atual. -->
+    <header class="page-header">
+      <a class="brand" href="menu.html" aria-label="EventSpace, voltar ao painel">
+        <span class="brand__symbol" aria-hidden="true">E</span>
+        <span>EventSpace</span>
+      </a>
+      <span class="header-label">Painel de administração</span>
+    </header>
+
+    <!-- Apresentação da área e ação de cadastro. -->
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">CADASTROS</p>
+        <h1 id="page-title">Clientes</h1>
+        <p class="intro__description">Consulte e gerencie os clientes cadastrados no sistema.</p>
+      </div>
+      <button class="button button--primary" id="new-client-button" type="button">
+        <span aria-hidden="true">+</span> Novo cliente
+      </button>
+    </section>
+
+    <!-- Permite testar a rota GET /Cliente/{id}; a primeira consulta usa o ID 0. -->
+    <section class="lookup-panel" aria-labelledby="lookup-heading">
+      <div class="section-heading">
+        <div>
+          <h2 id="lookup-heading">Consulta por ID</h2>
+          <p>Busque um cliente específico pelo identificador retornado pela API.</p>
+        </div>
+        <form class="lookup-form" id="lookup-form">
+          <label class="visually-hidden" for="lookup-id">ID do cliente</label>
+          <input id="lookup-id" type="number" min="0" step="1" value="0" required>
+          <button class="button button--secondary" type="submit">Consultar</button>
+        </form>
+      </div>
+      <div class="client-details" id="client-details" role="status" aria-live="polite">
+        <p class="empty-state">Consultando cliente de ID 0...</p>
+      </div>
+    </section>
+
+    <!-- A mensagem é atualizada pelo JavaScript sem recarregar a página. -->
+    <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+
+    <!-- A tabela usa GET /Cliente e concentra as ações de edição e status. -->
+    <section class="clients-panel" aria-labelledby="list-heading">
+      <div class="list-header">
+        <div>
+          <h2 id="list-heading">Lista de clientes</h2>
+          <p id="clients-count">Aguardando carregamento</p>
+        </div>
+        <button class="button button--text" id="reload-button" type="button">Atualizar lista</button>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">CPF/CNPJ</th>
+              <th scope="col">Nascimento</th>
+              <th scope="col">Renda</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span class="visually-hidden">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="clients-table">
+            <tr>
+              <td class="table-message" colspan="7">Carregando clientes...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- O mesmo formulário é preenchido para cadastrar ou atualizar um cliente. -->
+  <dialog class="client-dialog" id="client-dialog" aria-labelledby="dialog-title">
+    <form id="client-form">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">DADOS DO CLIENTE</p>
+          <h2 id="dialog-title">Novo cliente</h2>
+        </div>
+        <button class="close-button" id="close-dialog" type="button" aria-label="Fechar formulário">×</button>
+      </div>
+
+      <!-- O ID fica oculto e só é preenchido quando o cliente está sendo editado. -->
+      <input id="client-id" type="hidden">
+
+      <label class="form-field" for="client-name">
+        <span>Nome</span>
+        <input id="client-name" name="nome" type="text" maxlength="150" autocomplete="name" required>
+      </label>
+
+      <div class="form-row">
+        <label class="form-field" for="client-document">
+          <span>CPF/CNPJ</span>
+          <input id="client-document" name="cpfCnpj" type="text" maxlength="20"
+                 autocomplete="off" required>
+        </label>
+        <label class="form-field" for="client-birth-date">
+          <span>Data de nascimento</span>
+          <input id="client-birth-date" name="dataNascimento" type="text"
+                 maxlength="10" placeholder="DD/MM/AAAA" required>
+        </label>
+      </div>
+
+      <label class="form-field" for="client-income">
+        <span>Renda</span>
+        <input id="client-income" name="renda" type="number" min="0" step="0.01" required>
+      </label>
+
+      <p class="form-note">A API recebe os campos nome, cpfCnpj, dataNascimento e renda.</p>
+
+      <div class="dialog-actions">
+        <button class="button button--text" id="cancel-dialog" type="button">Cancelar</button>
+        <button class="button button--primary" id="save-client-button" type="submit">Salvar cliente</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

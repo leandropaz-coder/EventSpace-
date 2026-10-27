@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define a codificação para que acentos e caracteres em português sejam exibidos corretamente. -->
+  <meta charset="UTF-8">
+  <!-- Permite que o layout se ajuste a celulares e tablets. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consulte e gerencie reservas no EventSpace">
+  <title>Reservas | EventSpace</title>
+  <!-- Os estilos e o comportamento desta tela ficam em arquivos próprios. -->
+  <link rel="stylesheet" href="css/reserva.css">
+  <!-- defer espera o HTML ser interpretado antes de executar o script. -->
+  <script src="js/reserva.js" defer></script>
+</head>
+<body>
+  <!-- main envolve o conteúdo principal e ajuda tecnologias assistivas a navegar na página. -->
+  <main class="page">
+    <header class="page-header">
+      <!-- O link retorna ao painel existente no projeto. -->
+      <a class="brand" href="menu.html" aria-label="EventSpace, voltar ao painel">
+        <span class="brand__symbol" aria-hidden="true">E</span>
+        <span>EventSpace</span>
+      </a>
+      <span class="header-label">Painel de administração</span>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">CADASTROS</p>
+        <h1 id="page-title">Reservas</h1>
+        <p class="intro__description">Consulte e gerencie reservas cadastradas no sistema.</p>
+      </div>
+      <!-- O JavaScript abre o formulário em modo de criação. -->
+      <button class="button button--primary" id="new-reservation-button" type="button">
+        <span aria-hidden="true">+</span> Nova reserva
+      </button>
+    </section>
+
+    <!-- A entidade Reserva atual só expõe id, nome, cpfCnpj e codigo no JSON. -->
+    <p class="notice">
+      <strong>Campos disponíveis:</strong> ID, nome, CPF/CNPJ e código.
+      O controller possui uma rota de status, mas a entidade atual não persiste esse campo.
+    </p>
+
+    <section class="reservation-panel" aria-labelledby="reservation-heading">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">CONSULTA INDIVIDUAL</p>
+          <h2 id="reservation-heading">Detalhes da reserva</h2>
+        </div>
+
+        <!-- O formulário consulta GET /Reserva/{id} sem recarregar a página. -->
+        <form class="search-form" id="search-form">
+          <label class="visually-hidden" for="reservation-id">ID da reserva</label>
+          <input id="reservation-id" name="id" type="number" min="1" step="1" value="1" required>
+          <button class="button button--secondary" type="submit">Buscar</button>
+        </form>
+      </div>
+
+      <!-- O conteúdo é atualizado pelo JavaScript após a resposta da API. -->
+      <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+
+      <div class="detail-state" id="detail-loading" role="status">
+        Carregando a reserva de ID 1...
+      </div>
+
+      <div class="detail-state detail-state--empty" id="detail-empty" hidden>
+        <h3 id="empty-title">Reserva não carregada</h3>
+        <p id="empty-description">Busque uma reserva pelo ID para consultar seus dados.</p>
+      </div>
+
+      <!-- O painel é mostrado somente quando a API retorna uma reserva válida. -->
+      <article class="detail-card" id="detail-card" hidden>
+        <div class="detail-card__header">
+          <div>
+            <p class="eyebrow">RESERVA</p>
+            <h3 id="reservation-name">—</h3>
+          </div>
+          <span class="id-badge" id="reservation-id-badge">ID —</span>
+        </div>
+
+        <dl class="details">
+          <div class="detail-item">
+            <dt>CPF/CNPJ</dt>
+            <dd id="reservation-document">—</dd>
+          </div>
+          <div class="detail-item">
+            <dt>Código</dt>
+            <dd id="reservation-code">—</dd>
+          </div>
+        </dl>
+
+        <div class="detail-actions">
+          <button class="button button--secondary" id="edit-reservation-button" type="button">
+            Editar dados
+          </button>
+          <!-- DELETE /Reserva/{id} no controller marca o registro com status "D". -->
+          <button class="button button--danger" id="deactivate-reservation-button" type="button">
+            Desativar reserva
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section class="list-panel" aria-labelledby="list-heading">
+      <div class="panel-header panel-header--list">
+        <div>
+          <p class="eyebrow">VISÃO GERAL</p>
+          <h2 id="list-heading">Todas as reservas</h2>
+          <p class="list-description" id="reservations-count">A lista ainda não foi carregada.</p>
+        </div>
+        <!-- Esta ação usa GET /Reserva, disponibilizado pelo ReservaController. -->
+        <button class="button button--secondary" id="load-list-button" type="button">
+          Carregar lista
+        </button>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">CPF/CNPJ</th>
+              <th scope="col">Código</th>
+              <th scope="col"><span class="visually-hidden">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="reservations-table">
+            <tr>
+              <td class="table-message" colspan="5">Clique em “Carregar lista” para consultar as reservas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Um só formulário atende ao cadastro (POST) e à edição (PUT). -->
+  <dialog class="reservation-dialog" id="reservation-dialog" aria-labelledby="dialog-title">
+    <form id="reservation-form">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">DADOS DA RESERVA</p>
+          <h2 id="dialog-title">Nova reserva</h2>
+        </div>
+        <button class="close-button" id="close-dialog-button" type="button" aria-label="Fechar formulário">×</button>
+      </div>
+
+      <!-- Este ID só é preenchido quando o formulário está editando uma reserva existente. -->
+      <input id="form-reservation-id" type="hidden">
+
+      <label class="form-field" for="reservation-name-input">
+        <span>Nome</span>
+        <input id="reservation-name-input" name="nome" type="text" maxlength="150" autocomplete="name" required>
+      </label>
+
+      <label class="form-field" for="reservation-document-input">
+        <span>CPF/CNPJ</span>
+        <input id="reservation-document-input" name="cpfCnpj" type="text" maxlength="20" autocomplete="off" required>
+      </label>
+
+      <label class="form-field" for="reservation-code-input">
+        <span>Código</span>
+        <input id="reservation-code-input" name="codigo" type="text" maxlength="100" autocomplete="off" required>
+      </label>
+
+      <p class="form-note">
+        Os nomes dos campos enviados correspondem ao <code>ReservaRequest</code> do backend.
+      </p>
+
+      <!-- Mensagens de erro do salvamento ficam dentro do formulário. -->
+      <p class="feedback" id="form-feedback" role="status" aria-live="polite" hidden></p>
+
+      <div class="dialog-actions">
+        <button class="button button--text" id="cancel-dialog-button" type="button">Cancelar</button>
+        <button class="button button--primary" id="save-reservation-button" type="submit">Salvar reserva</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

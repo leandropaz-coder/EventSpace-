@@ -1,0 +1,1065 @@
+/* Variáveis de cor deixam a identidade visual centralizada e simples de ajustar. */
+:root {
+  color-scheme: light;
+  --color-ink: #20352d;
+  --color-muted: #78877f;
+  --color-green: #315d49;
+  --color-green-dark: #234735;
+  --color-green-soft: #e9f1eb;
+  --color-border: #e6ebe7;
+  --color-surface: #ffffff;
+  --color-page: #f7f9f7;
+  --shadow-card: 0 14px 36px rgba(32, 53, 45, 0.06);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* box-sizing previsível evita que bordas aumentem a largura dos componentes. */
+* {
+  box-sizing: border-box;
+}
+
+/* O fundo geral usa tons neutros para destacar as informações e os cartões. */
+html {
+  min-width: 320px;
+  background: var(--color-page);
+  scrollbar-color: #b7c8bc #edf1ed;
+  scrollbar-width: thin;
+}
+
+/* Personaliza a barra de rolagem em navegadores baseados em Chromium e Safari. */
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #edf1ed;
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #b7c8bc;
+  border: 2px solid #edf1ed;
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #8da796;
+}
+
+/* Remove margens padrão para o layout controlar o espaçamento com clareza. */
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-ink);
+  background: var(--color-page);
+}
+
+/* Botões e links herdam a fonte para manter uma tipografia uniforme. */
+button,
+a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #8ab59a;
+  outline-offset: 3px;
+}
+
+/* O menu lateral permanece visível enquanto somente o conteúdo pode rolar. */
+.app-shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: 252px;
+  flex-direction: column;
+  padding: 27px 18px 20px;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 9px;
+}
+
+.brand__mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--color-green);
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.brand__name {
+  color: var(--color-ink);
+  font-size: 17px;
+  font-weight: 720;
+  letter-spacing: -0.5px;
+}
+
+.sidebar__caption {
+  margin: 43px 10px 12px;
+  color: #9aa79f;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.25px;
+}
+
+.nav-list {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9px;
+  color: #69786f;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 590;
+  text-align: left;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.nav-link svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.nav-link:hover {
+  color: var(--color-green);
+  background: #f5f8f5;
+}
+
+.nav-link.is-active {
+  color: var(--color-green-dark);
+  background: var(--color-green-soft);
+  font-weight: 690;
+}
+
+.sidebar__bottom {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.sidebar__hint {
+  margin: 0 10px;
+  color: #9aa79f;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.logout-button {
+  border-top: 1px solid #f0f2f0;
+  border-radius: 0;
+  color: #78877f;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+/* A área principal fica ao lado do menu e usa uma barra superior discreta. */
+.main-area {
+  min-height: 100vh;
+  margin-left: 252px;
+}
+
+.topbar {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(22px, 4vw, 58px);
+  border-bottom: 1px solid rgba(230, 235, 231, 0.86);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.topbar__label {
+  display: grid;
+  gap: 1px;
+  color: #6d7b73;
+  font-size: 12px;
+}
+
+.topbar__eyebrow {
+  color: var(--color-green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.topbar__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6d7b73;
+  font-size: 11px;
+}
+
+.topbar__status span,
+.room-status span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6aa47c;
+  box-shadow: 0 0 0 3px #eaf3ec;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* O limite de largura melhora a leitura em telas grandes sem desperdiçar espaço. */
+.content {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding: 36px clamp(22px, 4vw, 58px) 25px;
+}
+
+.eyebrow {
+  margin: 0 0 11px;
+  color: #74867a;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.35px;
+}
+
+/* O banner combina texto e uma ilustração vetorial que não depende de serviços externos. */
+.hero {
+  position: relative;
+  display: grid;
+  min-height: 286px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
+  align-items: center;
+  overflow: hidden;
+  padding: 28px 42px;
+  border: 1px solid #e8eee8;
+  border-radius: 19px;
+  background: linear-gradient(112deg, #f1f6f0 0%, #edf4ee 53%, #e6efe7 100%);
+}
+
+.hero__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+}
+
+.hero h1 {
+  max-width: 450px;
+  margin: 0;
+  color: #203c2e;
+  font-size: clamp(29px, 3.2vw, 43px);
+  font-weight: 680;
+  letter-spacing: -1.7px;
+  line-height: 1.12;
+}
+
+.hero__copy > p:not(.eyebrow) {
+  max-width: 405px;
+  margin: 15px 0 21px;
+  color: #687a6e;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.hero__button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--color-green);
+  font-size: 12px;
+  font-weight: 650;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.hero__button:hover {
+  transform: translateY(-1px);
+  background: var(--color-green-dark);
+}
+
+.hero__button span {
+  font-size: 17px;
+}
+
+.hero-art {
+  position: relative;
+  align-self: stretch;
+  min-height: 220px;
+}
+
+.hero-art svg {
+  position: absolute;
+  right: -24px;
+  bottom: -34px;
+  width: min(100%, 530px);
+  height: auto;
+  max-height: 310px;
+}
+
+.hero-art__tag {
+  position: absolute;
+  right: 3px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  color: #496555;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 8px 18px rgba(50, 82, 62, 0.08);
+  font-size: 10px;
+  font-weight: 620;
+}
+
+.hero-art__tag span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #73a27e;
+}
+
+/* Títulos de seção compartilham alinhamento e escala tipográfica. */
+.metrics-section,
+.workspace-section,
+.quick-links {
+  margin-top: 36px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #273d32;
+  font-size: 20px;
+  font-weight: 680;
+  letter-spacing: -0.55px;
+}
+
+.refresh-button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid #e1e9e2;
+  border-radius: 7px;
+  color: #526b5b;
+  background: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 630;
+}
+
+.refresh-button:hover {
+  background: #f3f7f3;
+}
+
+.refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.refresh-button svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+/* Três cartões mostram somente contagens obtidas das rotas que retornam listas. */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metric-card {
+  display: flex;
+  min-height: 112px;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 19px;
+  border: 1px solid #e8ede8;
+  border-radius: 12px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.metric-card__icon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  place-items: center;
+  border-radius: 11px;
+}
+
+.metric-card__icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+}
+
+.metric-card__icon--blue {
+  color: #567d9c;
+  background: #eef4f8;
+}
+
+.metric-card__icon--green {
+  color: #4a8062;
+  background: #edf5ef;
+}
+
+.metric-card__icon--amber {
+  color: #a77a3b;
+  background: #faf3e7;
+}
+
+.metric-card__label,
+.metric-card__value,
+.metric-card__meta {
+  margin: 0;
+}
+
+.metric-card__label {
+  color: #728078;
+  font-size: 11px;
+  font-weight: 560;
+}
+
+.metric-card__value {
+  margin-top: 5px;
+  color: #263d31;
+  font-size: 25px;
+  font-weight: 720;
+  letter-spacing: -0.7px;
+  line-height: 1.1;
+}
+
+.metric-card__meta {
+  min-height: 15px;
+  margin-top: 5px;
+  color: #93a097;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.metric-card__meta.is-error {
+  color: #a54f4f;
+}
+
+.api-note {
+  min-height: 14px;
+  margin: 9px 2px 0;
+  color: #87948b;
+  font-size: 10px;
+}
+
+/* O cartão grande divide dados descritivos da planta selecionável. */
+.workspace-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.5fr);
+  gap: 22px;
+  overflow: hidden;
+  padding: 22px;
+  border: 1px solid #e8ede8;
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.workspace-card__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 6px 0;
+}
+
+.room-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #62806d;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.room-status span {
+  width: 6px;
+  height: 6px;
+}
+
+.workspace-card h3 {
+  margin: 19px 0 8px;
+  color: #2b4034;
+  font-size: 17px;
+  font-weight: 680;
+  letter-spacing: -0.35px;
+}
+
+.workspace-card__details > p:not(.workspace-card__hint) {
+  max-width: 280px;
+  margin: 0;
+  color: #7b8980;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.room-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 19px;
+  color: #8a968e;
+  font-size: 10px;
+}
+
+.room-facts strong {
+  color: #44634f;
+  font-size: 12px;
+}
+
+.selection-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 22px;
+  color: #496655;
+  font-size: 11px;
+  font-weight: 640;
+}
+
+.selection-summary__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9eb4a3;
+}
+
+.workspace-card__hint {
+  margin: 7px 0 0;
+  color: #9aa69e;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* A sala usa um piso suave e mesas circulares para lembrar uma planta real. */
+.room-plan {
+  display: grid;
+  min-height: 264px;
+  grid-template-columns: repeat(3, minmax(88px, 1fr));
+  grid-template-rows: 29px 1fr 25px;
+  align-items: center;
+  justify-items: center;
+  gap: 9px 16px;
+  padding: 15px 20px 11px;
+  border: 1px solid #e5ece5;
+  border-radius: 11px;
+  background-color: #f5f8f4;
+  background-image: linear-gradient(rgba(89, 122, 98, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(89, 122, 98, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  scrollbar-color: #b7c8bc #edf1ed;
+  scrollbar-width: thin;
+}
+
+.room-plan__screen {
+  display: flex;
+  width: min(70%, 280px);
+  height: 25px;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #dde7dd;
+  border-radius: 6px;
+  color: #789080;
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 8px;
+  font-weight: 720;
+  letter-spacing: 1px;
+}
+
+.room-plan__screen span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d8aa68;
+}
+
+.table-group {
+  position: relative;
+  display: grid;
+  width: 112px;
+  height: 112px;
+  place-items: center;
+}
+
+.meeting-table {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid #b7c7b9;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e8d7bf, #d6bea0);
+  box-shadow: 0 5px 12px rgba(76, 97, 77, 0.1);
+}
+
+.meeting-table span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(112, 91, 67, 0.24);
+  border-radius: 50%;
+}
+
+.seat {
+  position: absolute;
+  z-index: 1;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  border: 1px solid #b6c8b9;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(54, 80, 60, 0.1);
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.seat:hover {
+  transform: scale(1.09);
+  border-color: #5f9270;
+}
+
+.seat--top {
+  top: 1px;
+  left: calc(50% - 11.5px);
+}
+
+.seat--right {
+  top: calc(50% - 11.5px);
+  right: 1px;
+}
+
+.seat--bottom {
+  bottom: 1px;
+  left: calc(50% - 11.5px);
+}
+
+.seat--left {
+  top: calc(50% - 11.5px);
+  left: 1px;
+}
+
+.seat.is-selected {
+  transform: scale(1.05);
+  border-color: #376e4e;
+  background: #528264;
+}
+
+.seat.is-selected::after {
+  display: block;
+  width: 6px;
+  height: 3px;
+  margin: 0 auto;
+  transform: rotate(-45deg);
+  border-bottom: 1.5px solid #fff;
+  border-left: 1.5px solid #fff;
+  content: "";
+}
+
+.room-plan__legend {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  color: #77877b;
+  font-size: 8px;
+}
+
+.room-plan__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border: 1px solid #b6c8b9;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.legend-dot--selected {
+  border-color: #376e4e;
+  background: #528264;
+}
+
+.text-link {
+  color: #557760;
+  font-size: 11px;
+  font-weight: 640;
+}
+
+.text-link:hover {
+  color: #254a35;
+}
+
+/* Os atalhos ficam em cartões clicáveis, sem competir com os indicadores principais. */
+.quick-links__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.quick-links__grid a {
+  display: grid;
+  min-height: 105px;
+  grid-template-columns: 30px 1fr;
+  align-content: center;
+  align-items: center;
+  column-gap: 10px;
+  padding: 16px;
+  border: 1px solid #e8ede8;
+  border-radius: 11px;
+  background: #fff;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.quick-links__grid a:hover {
+  transform: translateY(-2px);
+  border-color: #c9d9cc;
+}
+
+.quick-links__grid a > span {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  grid-row: span 2;
+  place-items: center;
+  border-radius: 9px;
+  color: #4d765a;
+  background: #edf4ee;
+  font-size: 16px;
+}
+
+.quick-links__grid strong {
+  color: #364d3e;
+  font-size: 11px;
+}
+
+.quick-links__grid small {
+  margin-top: 4px;
+  color: #8a978e;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.content-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 37px;
+  padding: 16px 0 4px;
+  border-top: 1px solid var(--color-border);
+  color: #98a39c;
+  font-size: 9px;
+}
+
+/* Em tablets, o menu vira gaveta e os blocos ajustam suas colunas. */
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .main-area {
+    margin-left: 220px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 0.9fr);
+    padding-right: 25px;
+    padding-left: 30px;
+  }
+
+  .workspace-card {
+    grid-template-columns: minmax(190px, 0.65fr) minmax(0, 1.35fr);
+    gap: 15px;
+    padding: 17px;
+  }
+
+  .room-plan {
+    grid-template-columns: repeat(3, minmax(74px, 1fr));
+    gap: 7px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .table-group {
+    transform: scale(0.9);
+  }
+}
+
+/* Em telas estreitas, a gaveta pode ser aberta pelo botão da barra superior. */
+@media (max-width: 760px) {
+  .sidebar {
+    z-index: 31;
+    width: min(285px, 84vw);
+    transform: translateX(-105%);
+    transition: transform 200ms ease;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    z-index: 30;
+    inset: 0;
+    display: block;
+    visibility: hidden;
+    border: 0;
+    background: rgba(25, 41, 32, 0.34);
+    opacity: 0;
+    transition: opacity 200ms ease, visibility 200ms ease;
+  }
+
+  .sidebar-backdrop.is-visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .main-area {
+    margin-left: 0;
+  }
+
+  .topbar {
+    justify-content: flex-start;
+    gap: 13px;
+    min-height: 62px;
+  }
+
+  .menu-toggle {
+    display: grid;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: #4f6858;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .menu-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  .topbar__status {
+    margin-left: auto;
+    font-size: 0;
+  }
+
+  .topbar__status span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .hero {
+    min-height: 270px;
+  }
+
+  .hero-art {
+    opacity: 0.8;
+  }
+}
+
+/* Em celular, os cartões e a planta empilham para evitar rolagem horizontal. */
+@media (max-width: 620px) {
+  .content {
+    padding: 22px 16px 20px;
+  }
+
+  .topbar {
+    padding-right: 17px;
+    padding-left: 17px;
+  }
+
+  .hero {
+    min-height: 420px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 190px;
+    padding: 25px 22px 5px;
+  }
+
+  .hero h1 {
+    max-width: 390px;
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .hero__copy > p:not(.eyebrow) {
+    max-width: 350px;
+    margin-top: 11px;
+    margin-bottom: 15px;
+  }
+
+  .hero-art {
+    min-height: 190px;
+  }
+
+  .hero-art svg {
+    right: -20px;
+    bottom: -27px;
+    width: min(110%, 420px);
+  }
+
+  .hero-art__tag {
+    right: 0;
+    bottom: 1px;
+    font-size: 8px;
+  }
+
+  .metrics-section,
+  .workspace-section,
+  .quick-links {
+    margin-top: 29px;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .metric-card {
+    min-height: 94px;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .workspace-card {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .workspace-card__details {
+    padding: 2px 1px;
+  }
+
+  .workspace-card h3 {
+    margin-top: 13px;
+  }
+
+  .selection-summary {
+    margin-top: 13px;
+    padding-top: 0;
+  }
+
+  .room-plan {
+    min-height: 255px;
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
+    gap: 3px;
+    padding: 12px 5px 9px;
+  }
+
+  .table-group {
+    transform: scale(0.82);
+  }
+
+  .quick-links__grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .quick-links__grid a {
+    min-height: 78px;
+  }
+
+  .content-footer {
+    flex-direction: column;
+  }
+}
+
+/* Animações são reduzidas para quem prefere movimento mínimo no sistema. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

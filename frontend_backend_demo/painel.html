@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define a codificação correta para textos e caracteres em português. -->
+  <meta charset="UTF-8">
+  <!-- Faz o layout se ajustar a celulares, tablets e computadores. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Resume o conteúdo da página para navegadores e mecanismos de busca. -->
+  <meta name="description" content="Painel de gestão de salas e reservas corporativas do EventSpace">
+  <title>Painel principal | EventSpace</title>
+  <!-- Mantém os estilos e a lógica deste painel em arquivos próprios. -->
+  <link rel="stylesheet" href="css/painel.css">
+  <!-- defer espera o HTML ser interpretado antes de executar a lógica da tela. -->
+  <script src="js/painel.js" defer></script>
+</head>
+<body>
+  <!-- Agrupa menu e conteúdo para organizar a estrutura geral da aplicação. -->
+  <div class="app-shell">
+    <!-- A navegação lateral dá acesso direto aos módulos já existentes. -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <!-- O nome da marca também funciona como atalho para este painel. -->
+      <a class="brand" href="painel.html" aria-label="EventSpace, painel principal">
+        <span class="brand__mark" aria-hidden="true">E</span>
+        <span class="brand__name">EventSpace</span>
+      </a>
+
+      <p class="sidebar__caption">GESTÃO</p>
+      <nav aria-label="Navegação principal">
+        <ul class="nav-list">
+          <li>
+            <a class="nav-link is-active" href="painel.html" aria-current="page">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+              <span>Painel principal</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="usuario.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span>Usuários</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="sala.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9v17M15 9h4a1 1 0 0 1 1 1v11M2 21h20M8 9h3m-3 4h3m1 8v-4"/></svg>
+              <span>Salas</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="cliente.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6m1-15.5a3.5 3.5 0 0 1 0 6.8M18 14c2.2.8 3.5 2.8 3.5 6"/></svg>
+              <span>Clientes</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="reserva.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4m-7 8 2 2 4-4"/></svg>
+              <span>Reservas</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mantém a ação de sair coerente com a tela de login já existente. -->
+      <div class="sidebar__bottom">
+        <p class="sidebar__hint">Gestão simples para cada evento.</p>
+        <button class="nav-link logout-button" id="logout-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Este botão escurece o restante da tela e fecha o menu em telas pequenas. -->
+    <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Fechar menu"></button>
+
+    <!-- A área principal ocupa o espaço ao lado do menu lateral. -->
+    <div class="main-area">
+      <header class="topbar">
+        <!-- O botão abre e fecha o menu em celulares e tablets estreitos. -->
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="topbar__label">
+          <span class="topbar__eyebrow">EVENTSPACE</span>
+          <span>Painel de gestão</span>
+        </div>
+        <span class="topbar__status"><span aria-hidden="true"></span>Área administrativa</span>
+      </header>
+
+      <!-- O conteúdo central pode rolar sem deslocar a navegação no desktop. -->
+      <main class="content">
+        <!-- A área de destaque apresenta o serviço de locação corporativa. -->
+        <section class="hero" aria-labelledby="welcome-title">
+          <div class="hero__copy">
+            <p class="eyebrow">ESPAÇOS QUE INSPIRAM</p>
+            <h1 id="welcome-title">Seu próximo grande encontro começa aqui.</h1>
+            <p>Encontre o espaço ideal para reuniões, workshops e eventos corporativos.</p>
+            <a class="hero__button" href="sala.html">
+              Explorar salas
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- Ilustração vetorial própria: funciona sem dependência de imagens externas. -->
+          <div class="hero-art" role="img" aria-label="Ilustração de uma sala de reunião corporativa iluminada">
+            <svg viewBox="0 0 560 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="room-wall" x1="280" y1="30" x2="280" y2="310" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FAF8F1"/>
+                  <stop offset="1" stop-color="#E9F0E9"/>
+                </linearGradient>
+                <linearGradient id="room-floor" x1="280" y1="205" x2="280" y2="345" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#D9E5DD"/>
+                  <stop offset="1" stop-color="#BFCFC5"/>
+                </linearGradient>
+                <linearGradient id="table-top" x1="175" y1="182" x2="394" y2="250" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#D9AA78"/>
+                  <stop offset="1" stop-color="#B9794D"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="288" cy="315" rx="223" ry="25" fill="#204B3B" fill-opacity=".09"/>
+              <path d="M65 70a30 30 0 0 1 30-30h370a30 30 0 0 1 30 30v183H65V70Z" fill="url(#room-wall)"/>
+              <path d="M65 253h430v43a28 28 0 0 1-28 28H93a28 28 0 0 1-28-28v-43Z" fill="url(#room-floor)"/>
+              <rect x="98" y="67" width="125" height="116" rx="10" fill="#DCEBE5"/>
+              <path d="M160 67v116M98 125h125" stroke="#fff" stroke-width="7"/>
+              <path d="M111 171c19-33 42-39 64-14 13 14 26 18 42 13v13H111v-12Z" fill="#A9C6B4"/>
+              <rect x="337" y="75" width="114" height="72" rx="8" fill="#fff" stroke="#E1E9E2" stroke-width="5"/>
+              <rect x="350" y="87" width="88" height="47" rx="4" fill="#E8F0E9"/>
+              <path d="M366 116h55m-55-12h31" stroke="#3B765E" stroke-width="5" stroke-linecap="round"/>
+              <path d="M284 223 165 186a10 10 0 0 1 3-20h207a10 10 0 0 1 3 20l-84 37a17 17 0 0 1-10 0Z" fill="url(#table-top)"/>
+              <path d="m205 199-11 60m153-60 12 60" stroke="#805D43" stroke-width="9" stroke-linecap="round"/>
+              <rect x="237" y="146" width="81" height="12" rx="6" fill="#486E5D"/>
+              <rect x="258" y="132" width="40" height="16" rx="4" fill="#E9F0E9"/>
+              <path d="M108 246v-30a12 12 0 0 1 12-12h27a12 12 0 0 1 12 12v30" fill="#527867"/>
+              <path d="M111 246h45v24h-45z" fill="#3E6252"/>
+              <path d="M389 246v-30a12 12 0 0 1 12-12h27a12 12 0 0 1 12 12v30" fill="#527867"/>
+              <path d="M392 246h45v24h-45z" fill="#3E6252"/>
+              <path d="M475 241v-53m0 14c-22-5-27-19-20-32 19 2 29 15 20 32Zm0 17c20-5 25-18 19-30-18 2-27 14-19 30Z" stroke="#58816A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="439" cy="61" r="21" fill="#E8BD75"/>
+              <path d="M431 61h16m-8-8v16" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="hero-art__tag"><span aria-hidden="true"></span> Ambientes preparados para você</span>
+          </div>
+        </section>
+
+        <!-- Estes cartões recebem as contagens das listas devolvidas pela API. -->
+        <section class="metrics-section" aria-labelledby="metrics-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">ACOMPANHAMENTO</p>
+              <h2 id="metrics-title">Visão geral</h2>
+            </div>
+            <!-- Permite repetir as consultas sem recarregar a página. -->
+            <button class="refresh-button" id="reload-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9a7 7 0 0 1 11.6-2L20 12M4 12l2.3 5a7 7 0 0 0 11.6-2"/></svg>
+              Atualizar dados
+            </button>
+          </div>
+
+          <div class="metric-grid" aria-live="polite">
+            <article class="metric-card">
+              <span class="metric-card__icon metric-card__icon--blue" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              </span>
+              <div>
+                <p class="metric-card__label">Usuários cadastrados</p>
+                <p class="metric-card__value" id="users-value">—</p>
+                <p class="metric-card__meta" id="users-meta">Carregando dados...</p>
+              </div>
+            </article>
+            <article class="metric-card">
+              <span class="metric-card__icon metric-card__icon--green" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6m1-15.5a3.5 3.5 0 0 1 0 6.8M18 14c2.2.8 3.5 2.8 3.5 6"/></svg>
+              </span>
+              <div>
+                <p class="metric-card__label">Clientes cadastrados</p>
+                <p class="metric-card__value" id="clients-value">—</p>
+                <p class="metric-card__meta" id="clients-meta">Carregando dados...</p>
+              </div>
+            </article>
+            <article class="metric-card">
+              <span class="metric-card__icon metric-card__icon--amber" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4m-7 8 2 2 4-4"/></svg>
+              </span>
+              <div>
+                <p class="metric-card__label">Reservas cadastradas</p>
+                <p class="metric-card__value" id="reservations-value">—</p>
+                <p class="metric-card__meta" id="reservations-meta">Carregando dados...</p>
+              </div>
+            </article>
+          </div>
+          <p class="api-note" id="api-note" role="status" aria-live="polite"></p>
+        </section>
+
+        <!-- A planta ilustra um arranjo possível; selecionar lugares não envia reservas. -->
+        <section class="workspace-section" aria-labelledby="layout-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">VISUALIZAÇÃO DO ESPAÇO</p>
+              <h2 id="layout-title">Layout da sala Horizonte</h2>
+            </div>
+            <a class="text-link" href="sala.html">Ver salas <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="workspace-card">
+            <div class="workspace-card__details">
+              <span class="room-status"><span aria-hidden="true"></span>Pré-visualização</span>
+              <h3>Reunião colaborativa</h3>
+              <p>Uma configuração flexível para conversas, apresentações e ideias em equipe.</p>
+              <div class="room-facts">
+                <span><strong>12</strong> lugares ilustrados</span>
+                <span><strong>3</strong> mesas de reunião</span>
+              </div>
+              <div class="selection-summary" aria-live="polite">
+                <span class="selection-summary__dot" aria-hidden="true"></span>
+                <span id="selection-count">Nenhum lugar selecionado</span>
+              </div>
+              <p class="workspace-card__hint">Selecione os lugares no mapa para experimentar a disposição.</p>
+            </div>
+
+            <!-- Os botões de assento permitem testar a interação e são acessíveis por teclado. -->
+            <div class="room-plan" aria-label="Planta ilustrativa da sala com doze lugares selecionáveis">
+              <div class="room-plan__screen"><span aria-hidden="true"></span> TELA DE APRESENTAÇÃO</div>
+              <div class="table-group" aria-label="Mesa 1">
+                <button class="seat seat--top" type="button" aria-label="Selecionar lugar 1 da mesa 1" aria-pressed="false"></button>
+                <button class="seat seat--right" type="button" aria-label="Selecionar lugar 2 da mesa 1" aria-pressed="false"></button>
+                <button class="seat seat--bottom" type="button" aria-label="Selecionar lugar 3 da mesa 1" aria-pressed="false"></button>
+                <button class="seat seat--left" type="button" aria-label="Selecionar lugar 4 da mesa 1" aria-pressed="false"></button>
+                <span class="meeting-table"><span aria-hidden="true"></span></span>
+              </div>
+              <div class="table-group" aria-label="Mesa 2">
+                <button class="seat seat--top" type="button" aria-label="Selecionar lugar 1 da mesa 2" aria-pressed="false"></button>
+                <button class="seat seat--right" type="button" aria-label="Selecionar lugar 2 da mesa 2" aria-pressed="false"></button>
+                <button class="seat seat--bottom" type="button" aria-label="Selecionar lugar 3 da mesa 2" aria-pressed="false"></button>
+                <button class="seat seat--left" type="button" aria-label="Selecionar lugar 4 da mesa 2" aria-pressed="false"></button>
+                <span class="meeting-table"><span aria-hidden="true"></span></span>
+              </div>
+              <div class="table-group" aria-label="Mesa 3">
+                <button class="seat seat--top" type="button" aria-label="Selecionar lugar 1 da mesa 3" aria-pressed="false"></button>
+                <button class="seat seat--right" type="button" aria-label="Selecionar lugar 2 da mesa 3" aria-pressed="false"></button>
+                <button class="seat seat--bottom" type="button" aria-label="Selecionar lugar 3 da mesa 3" aria-pressed="false"></button>
+                <button class="seat seat--left" type="button" aria-label="Selecionar lugar 4 da mesa 3" aria-pressed="false"></button>
+                <span class="meeting-table"><span aria-hidden="true"></span></span>
+              </div>
+              <div class="room-plan__legend">
+                <span><i class="legend-dot legend-dot--free" aria-hidden="true"></i>Lugar disponível</span>
+                <span><i class="legend-dot legend-dot--selected" aria-hidden="true"></i>Selecionado para visualização</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Atalhos reduzem o caminho até as tarefas mais frequentes. -->
+        <section class="quick-links" aria-labelledby="quick-links-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">COMECE POR AQUI</p>
+              <h2 id="quick-links-title">Acesso rápido</h2>
+            </div>
+          </div>
+          <div class="quick-links__grid">
+            <a href="reserva.html"><span>+</span><strong>Consultar reservas</strong><small>Acompanhe os registros de eventos.</small></a>
+            <a href="cliente.html"><span>↗</span><strong>Gerenciar clientes</strong><small>Consulte os clientes cadastrados.</small></a>
+            <a href="sala.html"><span>⌂</span><strong>Explorar salas</strong><small>Veja os espaços disponíveis.</small></a>
+          </div>
+        </section>
+
+        <!-- A data é preenchida no idioma português pelo JavaScript da página. -->
+        <footer class="content-footer">
+          <span>EventSpace <span aria-hidden="true">·</span> Gestão de espaços para eventos</span>
+          <span id="current-date"></span>
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

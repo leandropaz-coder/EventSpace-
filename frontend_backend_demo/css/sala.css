@@ -1,0 +1,511 @@
+/* Tokens visuais e tipografia mantêm a tela coesa sem depender de CSS de outras páginas. */
+:root {
+  color-scheme: light;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #172033;
+  background: #f4f6fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --color-primary: #5046e5;
+  --color-primary-dark: #4036c9;
+  --color-muted: #68738a;
+  --color-border: #e2e7f0;
+  --color-surface: #ffffff;
+  --color-danger: #b42318;
+}
+
+/* box-sizing simplifica o cálculo das dimensões de campos e painéis. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 85% 0, rgb(80 70 229 / 8%), transparent 34rem),
+    #f4f6fb;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+/* A largura máxima favorece a leitura em telas grandes e continua fluida no celular. */
+.page {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 64px;
+}
+
+.page-header,
+.intro,
+.list-header,
+.list-tools,
+.dialog-header,
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-header {
+  min-height: 48px;
+  margin-bottom: 56px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-size: 17px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.brand__symbol {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 18px;
+}
+
+.header-label,
+.intro__description,
+.list-header p,
+.form-note {
+  color: var(--color-muted);
+}
+
+.header-label {
+  font-size: 14px;
+}
+
+.intro {
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 8px;
+  font-size: clamp(30px, 5vw, 40px);
+  letter-spacing: -0.045em;
+}
+
+.intro__description {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* Botões compartilham dimensões; variantes deixam clara a ação principal/secundária. */
+.button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.button--primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.button--secondary {
+  border-color: var(--color-border);
+  background: white;
+  color: #303b51;
+}
+
+.button--secondary:hover {
+  border-color: #b8c2d4;
+  background: #f9faff;
+}
+
+.button--text {
+  background: transparent;
+  color: #47536b;
+}
+
+.button--text:hover {
+  background: #f0f2f8;
+}
+
+.button--danger {
+  border-color: #f3d4d1;
+  background: #fff8f7;
+  color: var(--color-danger);
+}
+
+.button--danger:hover {
+  background: #ffedeb;
+}
+
+.notice {
+  margin: 0 0 22px;
+  padding: 14px 16px;
+  border: 1px solid #f1dfb8;
+  border-radius: 12px;
+  background: #fffaf0;
+  color: #6a5018;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+code {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: rgb(23 32 51 / 6%);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+/* O painel mantém os controles e os dados da tabela em um único agrupamento visual. */
+.rooms-panel {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+  box-shadow: 0 10px 34px rgb(26 39 71 / 5%);
+}
+
+.list-header {
+  min-height: 104px;
+  gap: 20px;
+  padding: 20px 24px;
+}
+
+.list-header h2 {
+  margin-bottom: 5px;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+
+.list-header p {
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.list-tools {
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.search-form {
+  display: flex;
+  gap: 7px;
+}
+
+.search-form input,
+.form-field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dce2ed;
+  border-radius: 9px;
+  outline: none;
+  background: white;
+  color: #172033;
+}
+
+.search-form input {
+  width: 148px;
+}
+
+.search-form input:focus,
+.form-field input:focus {
+  border-color: #837cf0;
+  box-shadow: 0 0 0 3px rgb(80 70 229 / 12%);
+}
+
+.feedback {
+  margin: 0 24px 16px;
+  padding: 12px 14px;
+  border: 1px solid #c9e8d5;
+  border-radius: 9px;
+  background: #f1fbf4;
+  color: #21643b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.feedback--error {
+  border-color: #f0cfcc;
+  background: #fff5f4;
+  color: #9c251d;
+}
+
+.feedback[hidden] {
+  display: none;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border-top: 1px solid var(--color-border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th,
+td {
+  padding: 15px 18px;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 13px;
+}
+
+th {
+  background: #fafbfe;
+  color: #647087;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+td {
+  color: #344057;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-message {
+  padding: 34px 18px;
+  color: var(--color-muted);
+  text-align: center;
+  white-space: normal;
+}
+
+.error-text {
+  color: var(--color-danger);
+}
+
+.status-badge {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #eff8f2;
+  color: #267345;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-badge--inactive {
+  background: #f1f2f5;
+  color: #68738a;
+}
+
+.row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.row-actions .button {
+  min-height: 34px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+/* O elemento dialog fornece foco modal nativo e pode ser fechado com Escape. */
+.room-dialog {
+  width: min(520px, calc(100% - 28px));
+  max-height: min(90vh, 760px);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 24px 90px rgb(20 30 55 / 24%);
+}
+
+.room-dialog::backdrop {
+  background: rgb(19 27 44 / 54%);
+  backdrop-filter: blur(3px);
+}
+
+.room-dialog form {
+  padding: 26px;
+}
+
+.dialog-header {
+  margin-bottom: 24px;
+}
+
+.dialog-header h2 {
+  margin-bottom: 0;
+  font-size: 21px;
+}
+
+.close-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 9px;
+  background: #f2f4f8;
+  color: #526078;
+  font-size: 24px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #344057;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-note {
+  margin: 2px 0 22px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* Em telas estreitas, controles quebram linha e a tabela permanece rolável. */
+@media (max-width: 720px) {
+  .page {
+    width: min(100% - 28px, 560px);
+    padding-top: 18px;
+  }
+
+  .page-header {
+    margin-bottom: 40px;
+  }
+
+  .header-label {
+    font-size: 12px;
+  }
+
+  .intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .list-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .list-tools {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .search-form {
+    flex: 1 1 230px;
+  }
+
+  .search-form input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .feedback {
+    margin-right: 18px;
+    margin-left: 18px;
+  }
+
+  th,
+  td {
+    padding: 13px 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .room-dialog form {
+    padding: 22px 18px;
+  }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gerenciamento de salas do EventSpace">
+  <title>Gerenciar salas | EventSpace</title>
+  <link rel="stylesheet" href="css/sala.css">
+  <script src="js/sala.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a class="brand" href="menu.html" aria-label="EventSpace, voltar ao painel">
+        <span class="brand__symbol" aria-hidden="true">E</span>
+        <span>EventSpace</span>
+      </a>
+      <span class="header-label">Painel de administração</span>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">CADASTROS</p>
+        <h1 id="page-title">Salas</h1>
+        <p class="intro__description">Consulte e gerencie os espaços cadastrados no sistema.</p>
+      </div>
+      <button class="button button--primary" id="new-room-button" type="button">
+        <span aria-hidden="true">+</span> Nova sala
+      </button>
+    </section>
+
+    <!-- A rota DELETE do controller altera o status para "D", em vez de apagar o registro. -->
+    <p class="notice">
+      <strong>Sobre a exclusão:</strong> a ação “Desativar” usa <code>DELETE /Salas/{id}</code>,
+      que marca a sala como inativa (status “D”).
+    </p>
+
+    <section class="rooms-panel" aria-labelledby="list-heading">
+      <div class="list-header">
+        <div>
+          <h2 id="list-heading">Lista de salas</h2>
+          <p id="rooms-count">Carregando salas...</p>
+        </div>
+        <div class="list-tools">
+          <form class="search-form" id="search-form">
+            <label class="visually-hidden" for="search-id">Buscar sala por ID</label>
+            <input id="search-id" type="number" min="1" step="1" placeholder="Buscar por ID">
+            <button class="button button--secondary" type="submit">Buscar</button>
+          </form>
+          <button class="button button--text" id="reload-button" type="button">Atualizar lista</button>
+        </div>
+      </div>
+
+      <!-- aria-live anuncia mensagens de sucesso e erro para leitores de tela. -->
+      <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Número</th>
+              <th scope="col">Andar</th>
+              <th scope="col">Classe</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span class="visually-hidden">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="rooms-table">
+            <tr>
+              <td class="table-message" colspan="7">Carregando salas...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Um único formulário atende tanto ao cadastro quanto à edição. -->
+  <dialog class="room-dialog" id="room-dialog" aria-labelledby="dialog-title">
+    <form id="room-form">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">DADOS DA SALA</p>
+          <h2 id="dialog-title">Nova sala</h2>
+        </div>
+        <button class="close-button" id="close-dialog" type="button" aria-label="Fechar formulário">×</button>
+      </div>
+
+      <!-- O ID fica oculto e só é preenchido quando o formulário está em modo de edição. -->
+      <input id="room-id" type="hidden">
+
+      <label class="form-field" for="room-name">
+        <span>Nome</span>
+        <input id="room-name" name="nome" type="text" maxlength="150" autocomplete="off" required>
+      </label>
+
+      <div class="form-row">
+        <label class="form-field" for="room-number">
+          <span>Número</span>
+          <input id="room-number" name="numero" type="text" maxlength="50" autocomplete="off" required>
+        </label>
+        <label class="form-field" for="room-floor">
+          <span>Andar</span>
+          <input id="room-floor" name="andar" type="text" maxlength="50" autocomplete="off" required>
+        </label>
+      </div>
+
+      <label class="form-field" for="room-class">
+        <span>Classe</span>
+        <input id="room-class" name="classe" type="text" maxlength="50" autocomplete="off" required>
+      </label>
+
+      <p class="form-note">
+        Os campos correspondem às propriedades recebidas pelo <code>SalaController</code>.
+        O status é definido pelo backend no cadastro.
+      </p>
+
+      <div class="dialog-actions">
+        <button class="button button--text" id="cancel-dialog" type="button">Cancelar</button>
+        <button class="button button--primary" id="save-room-button" type="submit">Salvar sala</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

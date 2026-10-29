@@ -35,7 +35,9 @@ let usuarios = [];
 
 // Recupera o token de autenticação salvo na sessão do navegador.
 function obterToken() {
-  return localStorage.getItem(TOKEN_STORAGE_KEY) || '';
+  return (localStorage.getItem(TOKEN_STORAGE_KEY) || '')
+    .replace(/^Bearer\s+/i, '')
+    .trim();
 }
 
 // Exibe uma mensagem de informação, sucesso ou erro na página.

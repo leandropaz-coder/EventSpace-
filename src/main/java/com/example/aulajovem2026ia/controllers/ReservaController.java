@@ -5,6 +5,8 @@ import com.example.aulajovem2026ia.entities.Reserva;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.ReservaRepository;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Reserva")
+//A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
+//facilitando a visualização dos endpoints relacionados.
+@Tag(name = "Reserva Controller", description = "classe responsavel por fazer do Curl")
 public class ReservaController  {
 
     @Autowired
@@ -25,6 +30,13 @@ public class ReservaController  {
     }
 
     @GetMapping("/{id}")
+    /**
+     * A anotação @Operation do OpenAPI (Swagger) documenta este endpoint específico.
+     * - summary: Fornece um título curto e direto sobre o que a operação faz ("Buscar sala por ID").
+     * - description: Detalha o funcionamento técnico do método, indicando que ele realiza uma consulta
+     *   por ID utilizando uma variável de caminho (PathVariable) e retorna como resposta um objeto DTO do sala.
+     */
+    @Operation(summary = "Buscar reserva por ID", description = "Metodo de consulta por ID que retorna somente uma reserva e recebe como paramentro de RPTH varieble ID E Retorna como saída do objeto do DTO")
     public ResponseEntity<Reserva> ConsultaReservaPorId(@PathVariable Long id){
         var reserva = reservaRepository.findById(id).orElse(null);
 

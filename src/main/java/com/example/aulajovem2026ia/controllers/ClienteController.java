@@ -5,6 +5,8 @@ import com.example.aulajovem2026ia.entities.Cliente;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.ClienteRepository;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Cliente")
+//A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
+//facilitando a visualização dos endpoints relacionados.
+@Tag(name = "Cliente Controller", description = "classe responsavel por fazer do Curl")
 public class ClienteController {
 
     @Autowired
@@ -24,6 +29,13 @@ public class ClienteController {
         return clienteRepository.findAll();
     }
     @GetMapping("/{id}")
+    /**
+     * A anotação @Operation do OpenAPI (Swagger) documenta este endpoint específico.
+     * - summary: Fornece um título curto e direto sobre o que a operação faz ("Buscar sala por ID").
+     * - description: Detalha o funcionamento técnico do método, indicando que ele realiza uma consulta
+     *   por ID utilizando uma variável de caminho (PathVariable) e retorna como resposta um objeto DTO do sala.
+     */
+    @Operation(summary = "Buscar cliente por ID", description = "Metodo de consulta por ID que retorna somente uma cliente e recebe como paramentro de RPTH varieble ID E Retorna como saida do objeto do DTO")
     public ResponseEntity<Cliente> ConsultaClientePorId(@PathVariable Long id){
         var cliente = clienteRepository.findById(id).orElse(null);
 
@@ -60,6 +72,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+
     public ResponseEntity<ClienteResponse>
     AtualizarUsuario(@PathVariable Long id, @RequestBody ClienteRequest clienteRequest){
         //Consulta no banco

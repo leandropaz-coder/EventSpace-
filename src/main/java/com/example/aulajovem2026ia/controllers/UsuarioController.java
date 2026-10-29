@@ -5,6 +5,9 @@ import com.example.aulajovem2026ia.entities.Empresa;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.EmpresaRepository;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+//A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
+//facilitando a visualização dos endpoints relacionados.
+@Tag(name = "Usuario Controller", description = "classe responsavel por fazer do CR")
 public class UsuarioController {
 
     @Autowired
@@ -31,6 +37,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    /**
+     * A anotação @Operation do OpenAPI (Swagger) documenta este endpoint específico.
+     * - summary: Fornece um título curto e direto sobre o que a operação faz ("Buscar usuário por ID").
+     * - description: Detalha o funcionamento técnico do método, indicando que ele realiza uma consulta
+     *   por ID utilizando uma variável de caminho (PathVariable) e retorna como resposta um objeto DTO do usuário.
+     */
+    @Operation(summary = "Buscar usuário por ID", description = "Metodo de consulta por ID que retorna somente um usuario e recebe como paramentro de RPTH varieble ID E Retorna como saida do objeto do DTO")
     public ResponseEntity<UsuarioConsultaResponse> ConsultaUsuarioPorId(@PathVariable Long id){
         var usuario = usuarioRepository.findById(id).orElse(null);
 

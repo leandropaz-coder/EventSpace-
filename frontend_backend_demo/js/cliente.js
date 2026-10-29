@@ -1,6 +1,17 @@
 // Endereço e caminho do recurso seguem as anotações do ClienteController.
 const API_BASE_URL = 'http://localhost:8082';
 const CLIENTES_ENDPOINT = '/Cliente';
+const TOKEN_STORAGE_KEY = 'eventspace.jwt';
+
+// Usa a credencial guardada pelo login em todas as rotas protegidas do controller.
+function authorizationHeader() {
+  const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY) || '';
+  const token = savedToken.replace(/^Bearer\s+/i, '').trim();
+  if (!token) {
+    throw new Error('Entre pelo login para obter um token antes de consultar os clientes.');
+  }
+  return `Bearer ${token}`;
+}
 
 // Reúne os elementos da tela para evitar repetir consultas ao DOM.
 const elementos = {
@@ -74,6 +85,7 @@ function mensagemDeErro(resposta, dados) {
 async function requisicaoApi(caminho, opcoes = {}) {
   const cabecalhos = new Headers(opcoes.headers || {});
   cabecalhos.set('accept', '*/*');
+  cabecalhos.set('Authorization', authorizationHeader());
   if (opcoes.body) cabecalhos.set('Content-Type', 'application/json');
 
   let resposta;

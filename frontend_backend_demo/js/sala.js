@@ -1,6 +1,17 @@
 // Endereço e caminho usam a porta configurada para o Spring Boot e a rota real do controller.
 const API_BASE_URL = 'http://localhost:8082';
 const SALAS_ENDPOINT = `${API_BASE_URL}/Salas`;
+const TOKEN_STORAGE_KEY = 'eventspace.jwt';
+
+// Converte o token salvo pelo login no formato exigido pelo filtro JWT do backend.
+function authorizationHeader() {
+  const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY) || '';
+  const token = savedToken.replace(/^Bearer\s+/i, '').trim();
+  if (!token) {
+    throw new Error('Entre pelo login para obter um token antes de consultar as salas.');
+  }
+  return `Bearer ${token}`;
+}
 
 // Elementos e dados compartilhados pelos eventos desta página.
 const roomForm = document.getElementById('room-form');
@@ -17,7 +28,10 @@ const saveRoomButton = document.getElementById('save-room-button');
 async function requestSala(url, options = {}) {
   const requestOptions = {
     method: options.method || 'GET',
-    headers: {},
+    headers: {
+      accept: 'application/json',
+      Authorization: authorizationHeader(),
+    },
   };
 
   // O controller recebe objetos Sala em JSON nos métodos POST e PUT.
@@ -35,16 +49,16 @@ async function requestSala(url, options = {}) {
     );
   }
 
-  // Ler primeiro como texto também funciona em respostas sem corpo (por exemplo, HTTP 204).
-  const responseText = await response.text();
+  // Ler primeiro como texto evita chamar response.json() em respostas HTTP 204 ou vazias.
+  const responseText = (await response.text()).trim();
   const contentType = response.headers.get('content-type') || '';
-  let result = responseText;
+  let result = responseText || null;
 
-  if (responseText && contentType.includes('application/json')) {
+  if (responseText && (contentType.includes('json') || /^[\[{]/.test(responseText))) {
     try {
       result = JSON.parse(responseText);
     } catch (error) {
-      throw new Error('A API retornou um JSON inválido.');
+      throw new Error(`A API retornou um JSON inválido na rota ${url}.`);
     }
   }
 

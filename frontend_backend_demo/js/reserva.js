@@ -1,5 +1,16 @@
 // A URL base e o caminho respeitam a porta e a rota declaradas no ReservaController.
 const API_RESERVAS_URL = 'http://localhost:8082/Reserva';
+const TOKEN_STORAGE_KEY = 'eventspace.jwt';
+
+// O filtro JWT do backend exige um token Bearer nas rotas de reservas.
+function authorizationHeader() {
+  const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY) || '';
+  const token = savedToken.replace(/^Bearer\s+/i, '').trim();
+  if (!token) {
+    throw new Error('Entre pelo login para obter um token antes de consultar as reservas.');
+  }
+  return `Bearer ${token}`;
+}
 
 // Guardamos referências dos elementos para atualizar a página sem recriá-la.
 const searchForm = document.getElementById('search-form');
@@ -28,6 +39,7 @@ async function requestReserva(url, options = {}) {
     method: options.method || 'GET',
     headers: {
       accept: '*/*',
+      Authorization: authorizationHeader(),
     },
   };
 

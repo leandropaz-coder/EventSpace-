@@ -25,8 +25,12 @@ public class SalaController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar todas as salas", description = "Retorna uma lista contendo todas as salas corporativas cadastradas no sistema (Boardroom Summit, " +
-            "Auditório Horizon, Training Lab, Sala Insight, etc.), com seus respectivos status e dados.")
+    @Operation(summary = "Listar todas as salas", description = "Retorna uma lista contendo todas as salas corporativas cadastradas no sistema " +
+            "(Boardroom Summit:refere-se a uma sala de diretoria ou conselho, e Summit:remete a um encontro de alto nível (uma cúpula)., " +
+            "Auditório Horizon:Auditório indica um espaço amplo com assentos voltados para um palco ou tela, enquanto " +
+            "Horizon (Horizonte) transmite a ideia de expansão de conhecimento e visão de futuro., " +
+            "Training Lab: Training (Treinamento) e Lab (Laboratório) juntas indicam um ambiente prático e focado no aprendizado contínuo., " +
+            "Sala Insight: remete a ideias, clareza e momentos de descoberta (estalo criativo)., etc.), com seus respectivos status e dados.")
 
     public List<Sala> ConsultaSala() {
         // A lista é serializada pelo Spring como um array JSON, inclusive quando estiver vazia.
@@ -56,7 +60,7 @@ public class SalaController {
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar nova sala", description = "Cria e salva uma nova sala corporativa no banco de dados com base nos dados enviados no corpo da requisição (payload).")
+    @Operation(summary = "Cadastrar nova sala", description = "Cria e salva uma nova sala corporativa no banco de dados com base nos dados enviados no corpo da requisição (payload): carga útil.")
     public ResponseEntity<Sala> CadastrarSala(@RequestBody Sala salaRequest) {
         // Cria um registro novo e devolve a entidade já salva, incluindo o ID gerado pelo banco.
         Sala salaNova = new Sala();

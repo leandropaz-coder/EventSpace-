@@ -6,6 +6,7 @@ import com.example.aulajovem2026ia.DTO.LoginRequest;
 import com.example.aulajovem2026ia.DTO.LoginResponse;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,10 @@ import java.time.ZoneOffset;
 
 @RestController
 @RequestMapping("/login")
+//A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
+//facilitando a visualização dos endpoints relacionados.
+@Tag(name = "classe login Controller", description = "Descreve de forma clara e resumida a responsabilidade geral da classe" +
+        "(neste caso, o gerenciamento de acessos e autenticação de usuários do EventSpace).")
 public class LoginController {
 
     // Permite consultar usuários no banco para validar as credenciais informadas.

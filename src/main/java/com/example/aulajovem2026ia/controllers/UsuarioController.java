@@ -19,7 +19,12 @@ import java.util.List;
 @RequestMapping("/usuarios")
 //A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
 //facilitando a visualização dos endpoints relacionados.
-@Tag(name = "Usuario Controller", description = "classe responsavel por fazer do CR")
+@Tag(name = "Usuario Controller", description = "Classe responsavel por fazer o controle do CRUD:" +
+        "Create (Criar / Inserir)" +
+        "Read (Ler / Consultar)" +
+        "Update (Atualizar / Alterar)" +
+        "Delete (Apagar / Remover)" +
+        " de Usuário")
 public class UsuarioController {
 
     @Autowired
@@ -29,6 +34,7 @@ public class UsuarioController {
     private EmpresaRepository empresaRepository;
 
     @GetMapping
+    @Operation(summary = "Listar todos os usuários", description = "Retorna uma lista completa contendo todos os usuários cadastrados na plataforma EventSpace.")
     public List<UsuarioConsultaResponse> ConsultaUsuario(){
 
         return usuarioRepository.findAll()
@@ -43,7 +49,8 @@ public class UsuarioController {
      * - description: Detalha o funcionamento técnico do método, indicando que ele realiza uma consulta
      *   por ID utilizando uma variável de caminho (PathVariable) e retorna como resposta um objeto DTO do usuário.
      */
-    @Operation(summary = "Buscar usuário por ID", description = "Metodo de consulta por ID que retorna somente um usuario e recebe como paramentro de RPTH varieble ID E Retorna como saida do objeto do DTO")
+    @Operation(summary = "Buscar Usuário por ID", description = "Medodo de consulta de usuário por ID que retorna " +
+            "somente um usuario e recebo como parametro o RPth varieble id e retorna como saida o objeto do DTO X!")
     public ResponseEntity<UsuarioConsultaResponse> ConsultaUsuarioPorId(@PathVariable Long id){
         var usuario = usuarioRepository.findById(id).orElse(null);
 
@@ -55,6 +62,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/empresa/{empresaId}")
+    @Operation(summary = "Buscar usuários por ID da empresa", description = "Retorna a lista de todos os usuários " +
+            "que estão vinculados a uma determinada empresa (empresaId) cadastrada no sistema.")
     public Usuario ConsultaUsuarioPorEmpresa(@PathVariable Long empresaId){
         Usuario usuarioContrutorCompleto =
                 new Usuario("Samuel","063720095945459","27/12/1193");
@@ -62,6 +71,8 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @Operation(summary = "Cadastrar novo usuário", description = "Cria e registra um novo usuário no banco de dados " +
+            "da aplicação a partir das informações enviadas no corpo da requisição.")
     public ResponseEntity<UsuarioResponse> CadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest){
 
         var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
@@ -88,6 +99,8 @@ public class UsuarioController {
     }
 
         @PutMapping("/{id}")
+        @Operation(summary = "Atualizar usuário por ID", description = "Realiza a atualização completa dos dados cadastrais de um usuário já existente " +
+                "(como nome, e-mail, credenciais e dados de contato) identificado pelo seu id.")
         public ResponseEntity<UsuarioResponse>
         AtualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest){
             //Consulta no banco
@@ -116,6 +129,8 @@ public class UsuarioController {
         }
 
     @PatchMapping("/{id}/status")
+    @Operation(summary = "Buscar usuários por ID da empresa", description = "Retorna a lista de todos os usuários que estão " +
+            "vinculados a uma determinada empresa (empresaId) cadastrada no sistema.")
     public ResponseEntity<UsuarioResponse>
     AtualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusUsuarioRequest usuarioRequest){
 
@@ -133,6 +148,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar usuário por ID", description = "Remove permanentemente o registro de um usuário do sistema com base no id fornecido.")
     public ResponseEntity<UsuarioResponse> deletar(@PathVariable Long id){
         //Consuta no banco
         Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);

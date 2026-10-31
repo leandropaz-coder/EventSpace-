@@ -9,8 +9,9 @@
   <meta name="description" content="Painel de gestão de salas e reservas corporativas do EventSpace">
   <title>Painel principal | EventSpace</title>
   <!-- Mantém os estilos e a lógica deste painel em arquivos próprios. -->
-  <link rel="stylesheet" href="css/painel.css">
   <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/painel.css">
+  <link rel="stylesheet" href="css/theme.css">
   <!-- defer espera o HTML ser interpretado antes de executar a lógica da tela. -->
   <script src="js/painel.js" defer></script>
 </head>
@@ -38,6 +39,12 @@
             <a class="nav-link" href="usuario.html">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
               <span>Usuários</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="empresa.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V5l7-2v18m0-14h7v14M8 8h1m-1 4h1m-1 4h1m6-4h1m-1 4h1"/></svg>
+              <span>Empresas</span>
             </a>
           </li>
           <li>
@@ -102,46 +109,72 @@
             </a>
           </div>
 
-          <!-- Ilustração vetorial própria: funciona sem dependência de imagens externas. -->
-          <div class="hero-art" role="img" aria-label="Ilustração de uma sala de reunião corporativa iluminada">
-            <svg viewBox="0 0 560 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="room-wall" x1="280" y1="30" x2="280" y2="310" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FAF8F1"/>
-                  <stop offset="1" stop-color="#E9F0E9"/>
-                </linearGradient>
-                <linearGradient id="room-floor" x1="280" y1="205" x2="280" y2="345" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#D9E5DD"/>
-                  <stop offset="1" stop-color="#BFCFC5"/>
-                </linearGradient>
-                <linearGradient id="table-top" x1="175" y1="182" x2="394" y2="250" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#D9AA78"/>
-                  <stop offset="1" stop-color="#B9794D"/>
-                </linearGradient>
-              </defs>
-              <ellipse cx="288" cy="315" rx="223" ry="25" fill="#204B3B" fill-opacity=".09"/>
-              <path d="M65 70a30 30 0 0 1 30-30h370a30 30 0 0 1 30 30v183H65V70Z" fill="url(#room-wall)"/>
-              <path d="M65 253h430v43a28 28 0 0 1-28 28H93a28 28 0 0 1-28-28v-43Z" fill="url(#room-floor)"/>
-              <rect x="98" y="67" width="125" height="116" rx="10" fill="#DCEBE5"/>
-              <path d="M160 67v116M98 125h125" stroke="#fff" stroke-width="7"/>
-              <path d="M111 171c19-33 42-39 64-14 13 14 26 18 42 13v13H111v-12Z" fill="#A9C6B4"/>
-              <rect x="337" y="75" width="114" height="72" rx="8" fill="#fff" stroke="#E1E9E2" stroke-width="5"/>
-              <rect x="350" y="87" width="88" height="47" rx="4" fill="#E8F0E9"/>
-              <path d="M366 116h55m-55-12h31" stroke="#3B765E" stroke-width="5" stroke-linecap="round"/>
-              <path d="M284 223 165 186a10 10 0 0 1 3-20h207a10 10 0 0 1 3 20l-84 37a17 17 0 0 1-10 0Z" fill="url(#table-top)"/>
-              <path d="m205 199-11 60m153-60 12 60" stroke="#805D43" stroke-width="9" stroke-linecap="round"/>
-              <rect x="237" y="146" width="81" height="12" rx="6" fill="#486E5D"/>
-              <rect x="258" y="132" width="40" height="16" rx="4" fill="#E9F0E9"/>
-              <path d="M108 246v-30a12 12 0 0 1 12-12h27a12 12 0 0 1 12 12v30" fill="#527867"/>
-              <path d="M111 246h45v24h-45z" fill="#3E6252"/>
-              <path d="M389 246v-30a12 12 0 0 1 12-12h27a12 12 0 0 1 12 12v30" fill="#527867"/>
-              <path d="M392 246h45v24h-45z" fill="#3E6252"/>
-              <path d="M475 241v-53m0 14c-22-5-27-19-20-32 19 2 29 15 20 32Zm0 17c20-5 25-18 19-30-18 2-27 14-19 30Z" stroke="#58816A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="439" cy="61" r="21" fill="#E8BD75"/>
-              <path d="M431 61h16m-8-8v16" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span class="hero-art__tag"><span aria-hidden="true"></span> Ambientes preparados para você</span>
-          </div>
+          <!-- O carrossel apresenta fotografias de salas sem interferir na leitura do texto principal. -->
+          <section class="room-carousel" aria-label="Espaços corporativos em destaque">
+            <!-- Cada slide informa o nome do espaço e oferece uma descrição alternativa da foto. -->
+            <div class="room-carousel__viewport" id="room-carousel">
+              <article class="room-carousel__slide is-active" aria-hidden="false">
+                <img
+                  src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85"
+                  alt="Boardroom Summit: sala de reunião corporativa com mesa ampla e cadeiras"
+                  fetchpriority="high">
+                <div class="room-carousel__caption">
+                  <span>Boardroom Summit</span>
+                  <small>Reuniões estratégicas</small>
+                </div>
+              </article>
+              <article class="room-carousel__slide" aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=85"
+                  alt="Auditório Horizon: espaço amplo preparado para apresentações"
+                  loading="lazy">
+                <div class="room-carousel__caption">
+                  <span>Auditório Horizon</span>
+                  <small>Apresentações e eventos</small>
+                </div>
+              </article>
+              <article class="room-carousel__slide" aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=1200&q=85"
+                  alt="Training Lab: ambiente colaborativo para treinamentos"
+                  loading="lazy">
+                <div class="room-carousel__caption">
+                  <span>Training Lab</span>
+                  <small>Workshops e treinamentos</small>
+                </div>
+              </article>
+              <article class="room-carousel__slide" aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85"
+                  alt="Sala Insight: ambiente moderno para colaboração entre equipes"
+                  loading="lazy">
+                <div class="room-carousel__caption">
+                  <span>Sala Insight</span>
+                  <small>Ideias que conectam equipes</small>
+                </div>
+              </article>
+            </div>
+
+            <!-- Os botões de navegação também funcionam por teclado e têm nomes acessíveis. -->
+            <button class="room-carousel__arrow room-carousel__arrow--previous" type="button" aria-label="Mostrar sala anterior" data-carousel-previous>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button class="room-carousel__arrow room-carousel__arrow--next" type="button" aria-label="Mostrar próxima sala" data-carousel-next>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <!-- Os indicadores mostram qual espaço está ativo e permitem saltar para outro. -->
+            <div class="room-carousel__controls">
+              <div class="room-carousel__dots" aria-label="Escolher sala em destaque">
+                <button class="room-carousel__dot is-active" type="button" aria-label="Mostrar Boardroom Summit" aria-pressed="true" data-carousel-slide="0"></button>
+                <button class="room-carousel__dot" type="button" aria-label="Mostrar Auditório Horizon" aria-pressed="false" data-carousel-slide="1"></button>
+                <button class="room-carousel__dot" type="button" aria-label="Mostrar Training Lab" aria-pressed="false" data-carousel-slide="2"></button>
+                <button class="room-carousel__dot" type="button" aria-label="Mostrar Sala Insight" aria-pressed="false" data-carousel-slide="3"></button>
+              </div>
+              <button class="room-carousel__toggle" type="button" aria-label="Pausar troca automática" aria-pressed="false" data-carousel-toggle>Pausar</button>
+              <span class="room-carousel__counter" aria-hidden="true"><span data-carousel-current>01</span> / 04</span>
+            </div>
+          </section>
         </section>
 
         <!-- Estes cartões recebem as contagens das listas devolvidas pela API. -->

@@ -217,6 +217,102 @@ elements.seatButtons.forEach((seat) => {
   });
 });
 
+// Reúne os slides e controles para manter a navegação do carrossel em um único lugar.
+const roomCarousel = document.querySelector('.room-carousel');
+const carouselSlides = Array.from(roomCarousel.querySelectorAll('.room-carousel__slide'));
+const carouselDots = Array.from(roomCarousel.querySelectorAll('[data-carousel-slide]'));
+const carouselCounter = roomCarousel.querySelector('[data-carousel-current]');
+const carouselPrevious = roomCarousel.querySelector('[data-carousel-previous]');
+const carouselNext = roomCarousel.querySelector('[data-carousel-next]');
+const carouselToggle = roomCarousel.querySelector('[data-carousel-toggle]');
+const reducedMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+let activeSlideIndex = 0;
+let carouselTimer;
+let carouselPaused = reducedMotionPreference.matches;
+
+// O botão já anuncia a opção correta quando o sistema prefere movimento reduzido.
+if (carouselPaused) {
+  carouselToggle.textContent = 'Retomar';
+  carouselToggle.setAttribute('aria-label', 'Retomar troca automática');
+  carouselToggle.setAttribute('aria-pressed', 'true');
+}
+
+// Exibe somente o slide escolhido e mantém os leitores de tela informados.
+function showCarouselSlide(index) {
+  activeSlideIndex = (index + carouselSlides.length) % carouselSlides.length;
+
+  carouselSlides.forEach((slide, slideIndex) => {
+    const isActive = slideIndex === activeSlideIndex;
+    slide.classList.toggle('is-active', isActive);
+    slide.setAttribute('aria-hidden', String(!isActive));
+  });
+
+  carouselDots.forEach((dot, dotIndex) => {
+    const isActive = dotIndex === activeSlideIndex;
+    dot.classList.toggle('is-active', isActive);
+    dot.setAttribute('aria-pressed', String(isActive));
+  });
+
+  carouselCounter.textContent = String(activeSlideIndex + 1).padStart(2, '0');
+}
+
+// Inicia a troca automática somente quando o usuário não pediu movimento reduzido.
+function startCarouselTimer() {
+  window.clearInterval(carouselTimer);
+  if (carouselPaused || document.hidden || carouselSlides.length < 2) return;
+
+  carouselTimer = window.setInterval(() => {
+    showCarouselSlide(activeSlideIndex + 1);
+  }, 5000);
+}
+
+// As setas e os indicadores permitem navegar sem esperar pela próxima troca automática.
+carouselPrevious.addEventListener('click', () => {
+  showCarouselSlide(activeSlideIndex - 1);
+  startCarouselTimer();
+});
+
+carouselNext.addEventListener('click', () => {
+  showCarouselSlide(activeSlideIndex + 1);
+  startCarouselTimer();
+});
+
+carouselDots.forEach((dot) => {
+  dot.addEventListener('click', () => {
+    showCarouselSlide(Number(dot.dataset.carouselSlide));
+    startCarouselTimer();
+  });
+});
+
+// O controle deixa a pessoa pausar a rotação ou retomá-la quando quiser.
+carouselToggle.addEventListener('click', () => {
+  carouselPaused = !carouselPaused;
+  const actionLabel = carouselPaused ? 'Retomar' : 'Pausar';
+  carouselToggle.textContent = actionLabel;
+  carouselToggle.setAttribute('aria-label', `${actionLabel} troca automática`);
+  carouselToggle.setAttribute('aria-pressed', String(carouselPaused));
+  startCarouselTimer();
+});
+
+// Pausar durante a interação evita que o conteúdo mude enquanto está sendo lido ou acionado.
+roomCarousel.addEventListener('mouseenter', () => window.clearInterval(carouselTimer));
+roomCarousel.addEventListener('mouseleave', startCarouselTimer);
+roomCarousel.addEventListener('focusin', () => window.clearInterval(carouselTimer));
+roomCarousel.addEventListener('focusout', (event) => {
+  if (!roomCarousel.contains(event.relatedTarget)) startCarouselTimer();
+});
+document.addEventListener('visibilitychange', startCarouselTimer);
+reducedMotionPreference.addEventListener('change', (event) => {
+  if (event.matches) {
+    carouselPaused = true;
+    carouselToggle.textContent = 'Retomar';
+    carouselToggle.setAttribute('aria-label', 'Retomar troca automática');
+    carouselToggle.setAttribute('aria-pressed', 'true');
+  }
+  startCarouselTimer();
+});
+startCarouselTimer();
+
 // A data local ajuda a contextualizar o painel sem depender do servidor.
 elements.dateLabel.textContent = new Intl.DateTimeFormat('pt-BR', {
   dateStyle: 'long',

@@ -8,7 +8,7 @@
   --color-green-soft: #e9f1eb;
   --color-border: #e6ebe7;
   --color-surface: #ffffff;
-  --color-page: #f7f9f7;
+  --color-page: #f8f9fa;
   --shadow-card: 0 14px 36px rgba(32, 53, 45, 0.06);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -86,8 +86,8 @@ a:focus-visible {
   width: 252px;
   flex-direction: column;
   padding: 27px 18px 20px;
-  border-right: 1px solid var(--color-border);
-  background: var(--color-surface);
+  border-right: 1px solid #1b2540;
+  background: #0b132b;
 }
 
 .brand {
@@ -118,7 +118,7 @@ a:focus-visible {
 
 .sidebar__caption {
   margin: 43px 10px 12px;
-  color: #9aa79f;
+  color: #9aa8c2;
   font-size: 10px;
   font-weight: 750;
   letter-spacing: 1.25px;
@@ -141,7 +141,7 @@ a:focus-visible {
   padding: 0 12px;
   border: 0;
   border-radius: 9px;
-  color: #69786f;
+  color: #c1ccda;
   background: transparent;
   cursor: pointer;
   font-size: 13px;
@@ -162,13 +162,13 @@ a:focus-visible {
 }
 
 .nav-link:hover {
-  color: var(--color-green);
-  background: #f5f8f5;
+  color: #fff;
+  background: #243650;
 }
 
 .nav-link.is-active {
-  color: var(--color-green-dark);
-  background: var(--color-green-soft);
+  color: #fff;
+  background: #2a4265;
   font-weight: 690;
 }
 
@@ -180,15 +180,15 @@ a:focus-visible {
 
 .sidebar__hint {
   margin: 0 10px;
-  color: #9aa79f;
+  color: #9aa8c2;
   font-size: 11px;
   line-height: 1.6;
 }
 
 .logout-button {
-  border-top: 1px solid #f0f2f0;
+  border-top: 1px solid #2a3850;
   border-radius: 0;
-  color: #78877f;
+  color: #d6deea;
 }
 
 .sidebar-backdrop {
@@ -265,7 +265,7 @@ a:focus-visible {
   letter-spacing: 1.35px;
 }
 
-/* O banner combina texto e uma ilustração vetorial que não depende de serviços externos. */
+/* O banner combina a chamada principal com as fotografias dos espaços disponíveis. */
 .hero {
   position: relative;
   display: grid;
@@ -326,43 +326,166 @@ a:focus-visible {
   font-size: 17px;
 }
 
-.hero-art {
+.room-carousel {
   position: relative;
   align-self: stretch;
+  min-width: 0;
   min-height: 220px;
+  overflow: hidden;
+  border: 7px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  background: #dce8df;
+  box-shadow: 0 14px 30px rgba(32, 53, 45, 0.12);
 }
 
-.hero-art svg {
+.room-carousel__viewport,
+.room-carousel__slide {
   position: absolute;
-  right: -24px;
-  bottom: -34px;
-  width: min(100%, 530px);
-  height: auto;
-  max-height: 310px;
+  inset: 0;
 }
 
-.hero-art__tag {
+.room-carousel__slide {
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+
+.room-carousel__slide.is-active {
+  opacity: 1;
+}
+
+.room-carousel__slide::after {
   position: absolute;
-  right: 3px;
-  bottom: 8px;
-  display: inline-flex;
+  inset: 35% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(10, 25, 20, 0.76));
+  content: "";
+}
+
+.room-carousel__slide img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.room-carousel__caption {
+  position: absolute;
+  z-index: 1;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  display: grid;
+  gap: 4px;
+  color: #fff;
+}
+
+.room-carousel__caption span {
+  font-size: clamp(17px, 2vw, 23px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.room-carousel__caption small {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 11px;
+}
+
+.room-carousel__arrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  transform: translateY(-50%);
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  color: #243b2e;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 3px 12px rgba(14, 30, 20, 0.16);
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.room-carousel__arrow:hover {
+  transform: translateY(-50%) scale(1.06);
+  background: #fff;
+}
+
+.room-carousel__arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.room-carousel__arrow--previous {
+  left: 13px;
+}
+
+.room-carousel__arrow--next {
+  right: 13px;
+}
+
+.room-carousel__controls {
+  position: absolute;
+  z-index: 2;
+  right: 17px;
+  bottom: 12px;
+  left: 17px;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 999px;
-  color: #496555;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 8px 18px rgba(50, 82, 62, 0.08);
-  font-size: 10px;
+  justify-content: space-between;
+}
+
+.room-carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.room-carousel__dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
+  transition: width 180ms ease, background 180ms ease;
+}
+
+.room-carousel__dot.is-active {
+  width: 20px;
+  border-radius: 99px;
+  background: #fff;
+}
+
+.room-carousel__toggle {
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: 5px;
+  color: #fff;
+  background: rgba(13, 30, 21, 0.28);
+  cursor: pointer;
+  font-size: 9px;
   font-weight: 620;
 }
 
-.hero-art__tag span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #73a27e;
+.room-carousel__toggle:hover {
+  background: rgba(13, 30, 21, 0.55);
+}
+
+.room-carousel__counter {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 1px;
 }
 
 /* Títulos de seção compartilham alinhamento e escala tipográfica. */
@@ -944,8 +1067,8 @@ a:focus-visible {
     min-height: 270px;
   }
 
-  .hero-art {
-    opacity: 0.8;
+  .room-carousel {
+    min-height: 205px;
   }
 }
 
@@ -978,20 +1101,8 @@ a:focus-visible {
     margin-bottom: 15px;
   }
 
-  .hero-art {
+  .room-carousel {
     min-height: 190px;
-  }
-
-  .hero-art svg {
-    right: -20px;
-    bottom: -27px;
-    width: min(110%, 420px);
-  }
-
-  .hero-art__tag {
-    right: 0;
-    bottom: 1px;
-    font-size: 8px;
   }
 
   .metrics-section,

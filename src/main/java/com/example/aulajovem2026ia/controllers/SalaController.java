@@ -60,7 +60,8 @@ public class SalaController {
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar nova sala", description = "Cria e salva uma nova sala corporativa no banco de dados com base nos dados enviados no corpo da requisição (payload): carga útil.")
+    @Operation(summary = "Cadastrar nova sala", description = "Cria e salva uma nova sala corporativa no banco de dados " +
+            "com base nos dados enviados no corpo da requisição (payload): carga útil.")
     public ResponseEntity<Sala> CadastrarSala(@RequestBody Sala salaRequest) {
         // Cria um registro novo e devolve a entidade já salva, incluindo o ID gerado pelo banco.
         Sala salaNova = new Sala();

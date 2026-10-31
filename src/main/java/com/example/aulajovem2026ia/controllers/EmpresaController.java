@@ -7,6 +7,8 @@ import com.example.aulajovem2026ia.DTO.UsuarioConsultaResponse;
 import com.example.aulajovem2026ia.entities.Empresa;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.EmpresaRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,15 @@ import java.util.List;
 // Presica colocar @RESTCONTROLLER PARA ATIVAR A @AUTOWIRED
 @RestController
 @RequestMapping
+@Tag(name = "Empresa Controller", description = "Gerencia o cadastro e a consulta de empresas parceiras no ecossistema " +
+        "do EventSpace, permitindo também listar os usuários vinculados a cada CNPJ.")
 public class EmpresaController {
 
     @Autowired
     private EmpresaRepository empresaRepository;
 
     @GetMapping
+    @Operation(summary = "Listar todas as empresas", description = "Retorna uma lista completa contendo todas as empresas cadastradas no sistema.")
     public List<EmpresaConsultaResponse> listarTodos(){
 
         return empresaRepository.findAll()
@@ -31,6 +36,8 @@ public class EmpresaController {
 
     // Metodo para chamar mais do post "/criar"
     @PostMapping("/Criar")
+    @Operation(summary = "Cadastrar nova empresa", description = "C nova empresa   Descrição / Summary: Cria e registra " +
+            "uma nova empresa no banco de dados a partir das informações fornecidas no corpo da requisição.")
     // void significa o nada do acesso
     public ResponseEntity<EmpresaResponse> cadastrarEmpresa(@RequestBody EmpresaResquest empresaResquest) {
         Empresa empresaBanco = new Empresa();
@@ -53,6 +60,8 @@ public class EmpresaController {
     }
     // No @GetMapping COMO(cnpj)/OQUE(usuarios) 4 PILARES DA FUNÇÃo Se ela vem pelo urlO
     @GetMapping("/porcnpj/{cnpj}/usuarios")
+    @Operation(summary = "Buscar usuários por CNPJ da empresa", description = "Retorna todos os usuários que estão vinculados " +
+            "a uma empresa específica identificada pelo seu número de CNPJ.")
     public  ResponseEntity<List<UsuarioConsultaResponse>> buscarUsuariosPorCnpjEmpresa(@PathVariable String cnpj) {
         var empresaBanco = empresaRepository.getEmpresaByCnpj(cnpj).orElse(null);
         if (empresaBanco == null)

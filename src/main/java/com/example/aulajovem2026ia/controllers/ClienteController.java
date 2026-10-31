@@ -25,6 +25,8 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @GetMapping
+    @Operation(summary = "Listar todos os clientes", description = "Retorna uma lista contendo todos os clientes cadastrados" +
+            " na plataforma EventSpace.")
     public List<Cliente> ConsultaCliente(){
         return clienteRepository.findAll();
     }
@@ -35,7 +37,8 @@ public class ClienteController {
      * - description: Detalha o funcionamento técnico do método, indicando que ele realiza uma consulta
      *   por ID utilizando uma variável de caminho (PathVariable) e retorna como resposta um objeto DTO do sala.
      */
-    @Operation(summary = "Buscar cliente por ID", description = "Metodo de consulta por ID que retorna somente uma cliente e recebe como paramentro de RPTH varieble ID E Retorna como saida do objeto do DTO")
+    @Operation(summary = "Buscar cliente por ID", description = "Retorna os detalhes cadastrais completos de um cliente " +
+            "específico com base no seu identificador único (id).")
     public ResponseEntity<Cliente> ConsultaClientePorId(@PathVariable Long id){
         var cliente = clienteRepository.findById(id).orElse(null);
 
@@ -47,6 +50,8 @@ public class ClienteController {
     }
 
     @GetMapping("/empresa/{empresaId}")
+    @Operation(summary = "Buscar clientes por ID da empresa", description = "Retorna todos os clientes associados a uma " +
+            "empresa específica (empresaId) cadastrada no sistema.")
     public Cliente ConsultaClientePorEmpresa(@PathVariable Long empresaId){
         Cliente clienteContrutorCompleto =
                 new Cliente("Pedro","0202020202","15/11/1988", 4000);
@@ -54,6 +59,8 @@ public class ClienteController {
     }
 
     @PostMapping
+    @Operation(summary = "Cadastrar novo cliente", description = "Registra um novo cliente no banco de dados a partir " +
+            "das informações fornecidas no corpo da requisição.")
     public ResponseEntity<ClienteResponse> CadastrarCLiente(@RequestBody ClienteRequest clienteRequest){
 
         Cliente clienteBanco = new Cliente();
@@ -72,7 +79,8 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-
+    @Operation(summary = "Atualizar cliente por ID", description = "Atualiza por completo os dados cadastrais de um " +
+            "cliente existente (como nome, CPF/CNPJ, e-mail e telefone) identificado pelo seu id")
     public ResponseEntity<ClienteResponse>
     AtualizarUsuario(@PathVariable Long id, @RequestBody ClienteRequest clienteRequest){
         //Consulta no banco
@@ -92,6 +100,8 @@ public class ClienteController {
         return ResponseEntity.notFound().build();
     }
     @PatchMapping("/{id}/status")
+    @Operation(summary = "Atualizar status do cliente", description = "Realiza uma alteração pontual no status do cliente " +
+            "(por exemplo, alternando entre ativo e inativo)")
     public ResponseEntity<ClienteResponse>
     AtualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusClienteRequest clienteRequest){
         //Consulta no banco
@@ -108,6 +118,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar cliente por ID", description = "Remove permanentemente o registro de um cliente do sistema com base no id")
     public ResponseEntity<ClienteResponse> deletar(@PathVariable Long id){
         //Consulta no banco
 

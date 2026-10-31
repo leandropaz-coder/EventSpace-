@@ -6,6 +6,7 @@ import com.example.aulajovem2026ia.DTO.LoginRequest;
 import com.example.aulajovem2026ia.DTO.LoginResponse;
 import com.example.aulajovem2026ia.entities.Usuario;
 import com.example.aulajovem2026ia.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,6 +52,9 @@ public class LoginController {
 
     // Recebe as credenciais enviadas no corpo da requisição POST /login.
     @PostMapping
+    @Operation(summary = "Autenticar usuário / Realizar login", description = "Autentica as credenciais enviadas pelo " +
+            "usuário (como e-mail e senha) e retorna o token de acesso (JWT) necessário para validar o login e liberar a " +
+            "navegação segura nos recursos do EventSpace.")
     public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequest loginRequest){
 
         // Verifica se existe um usuário com o login (CPF) e a senha informados.

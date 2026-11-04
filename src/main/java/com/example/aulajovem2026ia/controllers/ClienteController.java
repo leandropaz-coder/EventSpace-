@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Cliente")
+// Sempre letra minuscula no inicio"cliente"
+@RequestMapping("/cliente")
 //A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
 //facilitando a visualização dos endpoints relacionados.
 @Tag(name = "Cliente Controller", description = "classe responsavel por fazer do Curl")

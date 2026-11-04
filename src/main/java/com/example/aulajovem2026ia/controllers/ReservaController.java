@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Reserva")
+@RequestMapping("/reserva")
 //A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
 //facilitando a visualização dos endpoints relacionados.
 @Tag(name = "Reserva Controller", description = "Gerencia o ciclo de vida das reservas de salas corporativas no " +

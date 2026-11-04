@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Salas")
+@RequestMapping("/salas")
 //A anotação @Tag do OpenAPI/Swagger agrupa e nomeia esta classe na documentação interativa da API,
 //facilitando a visualização dos endpoints relacionados.
 @Tag(name = "Sala Controller", description = "é o responsável por expor os endpoints da API REST que vão conversar diretamente com o seu Front-end")

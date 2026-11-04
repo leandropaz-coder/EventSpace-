@@ -35,7 +35,7 @@ public class EmpresaController {
     }
 
     // Metodo para chamar mais do post "/criar"
-    @PostMapping("/Criar")
+    @PostMapping("/criar")
     @Operation(summary = "Cadastrar nova empresa", description = "C nova empresa   Descrição / Summary: Cria e registra " +
             "uma nova empresa no banco de dados a partir das informações fornecidas no corpo da requisição.")
     // void significa o nada do acesso
@@ -44,7 +44,7 @@ public class EmpresaController {
 
         empresaBanco.setRazaoSocial(empresaResquest.getRazaoSocial());
         empresaBanco.setCnpj(empresaResquest.getCnpj());
-        empresaBanco.setNomeFantasia(empresaResquest.getRazaoSocial());
+        empresaBanco.setNomeFantasia(empresaResquest.getNomeFantasia());
         empresaBanco.setInscricaoEstadual(empresaResquest.getInscricaoEstadual());
 
 
@@ -58,6 +58,23 @@ public class EmpresaController {
 
         return ResponseEntity.ok(empresaResponse);
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar empresa por ID", description = "Atualiza por completo os dados cadastrais de uma empresa já existente, identificada pelo seu ID.")
+    public ResponseEntity<Empresa> AtualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresaRequest) {
+        // Atualiza somente um registro existente; IDs inexistentes recebem HTTP 404.
+        Empresa empresaBanco = empresaRepository.findById(id).orElse(null);
+        if (empresaBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        empresaBanco.setRazaoSocial(empresaRequest.getRazaoSocial());
+        empresaBanco.setCnpj(empresaRequest.getCnpj());
+        empresaBanco.setNomeFantasia(empresaRequest.getNomeFantasia());
+        empresaBanco.setInscricaoEstadual(empresaRequest.getInscricaoEstadual());
+        return ResponseEntity.ok(empresaRepository.save(empresaBanco));
+    }
+
     // No @GetMapping COMO(cnpj)/OQUE(usuarios) 4 PILARES DA FUNÇÃo Se ela vem pelo urlO
     @GetMapping("/porcnpj/{cnpj}/usuarios")
     @Operation(summary = "Buscar usuários por CNPJ da empresa", description = "Retorna todos os usuários que estão vinculados " +

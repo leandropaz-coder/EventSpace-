@@ -14,6 +14,7 @@ public class EmpresaConsultaResponse {
         this.nomeFantasia = empresa.getNomeFantasia();
         this.inscricaoEstadual = empresa.getInscricaoEstadual();
         this.id = empresa.getId();
+        this.status = empresa.getStatus();
 
 
         if(empresa.getUsuarios()!= null){
@@ -32,6 +33,8 @@ public class EmpresaConsultaResponse {
     private String cnpj;
 
     private String inscricaoEstadual;
+
+    private String status;
 
     private int quantidadeUsuario;
 
@@ -81,5 +84,13 @@ public class EmpresaConsultaResponse {
 
     public void setInscricaoEstaual(String inscricaoEstaual) {
         this.inscricaoEstadual = inscricaoEstaual;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }//fim da minha classe.

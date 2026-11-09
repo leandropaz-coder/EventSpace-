@@ -13,6 +13,7 @@ public class CursoConsultaResponse {
         this.id = curso.getId();
         this.titulo = curso.getTitulo();
         this.descricao = curso.getDescricao();
+        this.status = curso.getStatus() == null ? "A" : curso.getStatus();
         this.usuarios = curso.getAlunos()
                 .stream()
                 .map(UsuarioConsultaResponse::new).toList();
@@ -21,6 +22,7 @@ public class CursoConsultaResponse {
     private Long id;
     private String titulo;
     private String descricao;
+    private String status;
 
     private List<UsuarioConsultaResponse> usuarios;
 
@@ -46,6 +48,14 @@ public class CursoConsultaResponse {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<UsuarioConsultaResponse> getUsuarios() {

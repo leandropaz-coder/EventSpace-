@@ -1,5 +1,6 @@
 package com.example.aulajovem2026ia.controllers;
 
+import com.example.aulajovem2026ia.DTO.AtualizaStatusCursoRequest;
 import com.example.aulajovem2026ia.DTO.CursoConsultaResponse;
 import com.example.aulajovem2026ia.DTO.CursoRequest;
 import com.example.aulajovem2026ia.DTO.CursoResponse;
@@ -35,11 +36,12 @@ public class CursoController {
 
         cursoBanco.setDescricao(cursoRequest.getDescricao());
         cursoBanco.setTitulo(cursoRequest.getTitulo());
+        cursoBanco.setStatus("A");
 
 
         cursoRepository.save(cursoBanco);
 
-        return ResponseEntity.ok(new CursoResponse(cursoBanco.getId(),"lasanha1"));
+        return ResponseEntity.ok(new CursoResponse(cursoBanco.getId(), "Curso cadastrado com sucesso."));
 
     }
 
@@ -56,6 +58,70 @@ public class CursoController {
         return ResponseEntity.ok(listaCurso);
 
 
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar curso por ID", description = "Retorna os dados de um curso e seus alunos matriculados.")
+    public ResponseEntity<CursoConsultaResponse> buscarCursoPorId(@PathVariable Long id) {
+        Curso cursoBanco = cursoRepository.findById(id).orElse(null);
+        if (cursoBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new CursoConsultaResponse(cursoBanco));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar curso por ID", description = "Atualiza o título e a descrição de um curso existente.")
+    public ResponseEntity<CursoConsultaResponse> atualizarCurso(
+            @PathVariable Long id,
+            @RequestBody CursoRequest cursoRequest) {
+        Curso cursoBanco = cursoRepository.findById(id).orElse(null);
+        if (cursoBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        cursoBanco.setTitulo(cursoRequest.getTitulo());
+        cursoBanco.setDescricao(cursoRequest.getDescricao());
+        Curso cursoAtualizado = cursoRepository.save(cursoBanco);
+        return ResponseEntity.ok(new CursoConsultaResponse(cursoAtualizado));
+    }
+
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Atualizar status do curso", description = "Atualiza o status do curso para A (ativo) ou D (desativado).")
+    public ResponseEntity<CursoConsultaResponse> atualizarStatusCurso(
+            @PathVariable Long id,
+            @RequestBody AtualizaStatusCursoRequest statusRequest) {
+        Curso cursoBanco = cursoRepository.findById(id).orElse(null);
+        if (cursoBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (statusRequest == null || statusRequest.getStatus() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String status = statusRequest.getStatus();
+        if (!"A".equalsIgnoreCase(status) && !"D".equalsIgnoreCase(status)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        cursoBanco.setStatus(status.toUpperCase());
+        Curso cursoAtualizado = cursoRepository.save(cursoBanco);
+        return ResponseEntity.ok(new CursoConsultaResponse(cursoAtualizado));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Desativar curso por ID", description = "Realiza a exclusão lógica do curso, alterando seu status para D e preservando as matrículas.")
+    public ResponseEntity<Void> desativarCurso(@PathVariable Long id) {
+        Curso cursoBanco = cursoRepository.findById(id).orElse(null);
+        if (cursoBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        cursoBanco.setStatus("D");
+        cursoRepository.save(cursoBanco);
+        return ResponseEntity.noContent().build();
     }
 
 
@@ -82,7 +148,7 @@ public class CursoController {
         cursoRepository.save(cursoBanco);
 
 
-        return ResponseEntity.ok(new CursoResponse(cursoBanco.getId(),"lasanha2"));
+        return ResponseEntity.ok(new CursoResponse(cursoBanco.getId(), "Matrícula realizada com sucesso."));
 
 
     }

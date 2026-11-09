@@ -20,6 +20,7 @@ public class Curso {
     private String titulo;
 
     private String descricao;
+    private String status = "A";
 
 // lista de alunos que vai fazer um controle que não apaga tudo. Ele vai mostrar o qual vc apagou da lista.
     @ManyToMany(mappedBy = "cursos")
@@ -74,5 +75,12 @@ public Set<Usuario> getAlunos() {
         this.descricao = descricao;
     }
 
-}//fim da minha classe.
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+}//fim da minha classe.

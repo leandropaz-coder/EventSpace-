@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Libera todas as rotas da sua API
                 .allowedOriginPatterns("*") // Permite requisições de qualquer origem (ótimo para desenvolvimento)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS") // Métodos permitidos
                 .allowedHeaders("*") // Permite todos os headers (como Content-Type, Authorization, etc.)
                 .allowCredentials(false); // Defina como true se for usar Cookies/Sessions de autenticação
     }

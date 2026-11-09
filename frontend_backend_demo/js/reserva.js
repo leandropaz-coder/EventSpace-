@@ -1,5 +1,5 @@
 // A URL base e o caminho respeitam a porta e a rota declaradas no ReservaController.
-const API_RESERVAS_URL = 'http://localhost:8082/Reserva';
+const API_RESERVAS_URL = 'http://localhost:8082/reserva';
 const TOKEN_STORAGE_KEY = 'eventspace.jwt';
 
 // O filtro JWT do backend exige um token Bearer nas rotas de reservas.
@@ -21,6 +21,10 @@ const detailCard = document.getElementById('detail-card');
 const feedback = document.getElementById('feedback');
 const reservationsTable = document.getElementById('reservations-table');
 const reservationsCount = document.getElementById('reservations-count');
+const companySearchForm = document.getElementById('company-search-form');
+const companyIdInput = document.getElementById('company-id');
+const companyReservationsTable = document.getElementById('company-reservations-table');
+const companyFeedback = document.getElementById('company-feedback');
 const reservationDialog = document.getElementById('reservation-dialog');
 const reservationForm = document.getElementById('reservation-form');
 const formFeedback = document.getElementById('form-feedback');
@@ -115,6 +119,16 @@ function displayValue(value) {
   return value === null || value === undefined || value === '' ? '—' : String(value);
 }
 
+function statusLabel(status) {
+  if (status === 'A') {
+    return 'Ativa (A)';
+  }
+  if (status === 'D') {
+    return 'Desativada (D)';
+  }
+  return displayValue(status);
+}
+
 function showLoading() {
   detailLoading.hidden = false;
   detailEmpty.hidden = true;
@@ -136,6 +150,9 @@ function renderReserva(reserva) {
   document.getElementById('reservation-name').textContent = displayValue(reserva.nome);
   document.getElementById('reservation-document').textContent = displayValue(reserva.cpfCnpj);
   document.getElementById('reservation-code').textContent = displayValue(reserva.codigo);
+  document.getElementById('reservation-status').textContent = statusLabel(reserva.status);
+  document.getElementById('reservation-status-input').value =
+    reserva.status === 'D' ? 'D' : 'A';
 
   reservaAtualId = reserva.id === null || reserva.id === undefined
     ? null
@@ -147,7 +164,7 @@ function renderReserva(reserva) {
 }
 
 /**
- * Consulta uma reserva pela rota GET /Reserva/{id}. A consulta inicial usa
+ * Consulta uma reserva pela rota GET /reserva/{id}. A consulta inicial usa
  * exatamente o ID 1 indicado para teste; a mesma função atende a busca e a edição.
  */
 async function carregarReserva(id, { reportError = true } = {}) {
@@ -185,7 +202,7 @@ function renderTableMessage(message, isError = false) {
   const row = document.createElement('tr');
   const cell = document.createElement('td');
   cell.className = `table-message${isError ? ' feedback--error' : ''}`;
-  cell.colSpan = 5;
+  cell.colSpan = 6;
   cell.textContent = message;
   row.append(cell);
   reservationsTable.replaceChildren(row);
@@ -206,6 +223,7 @@ function renderReservas(reservas) {
     appendCell(row, reserva.nome);
     appendCell(row, reserva.cpfCnpj);
     appendCell(row, reserva.codigo);
+    appendCell(row, statusLabel(reserva.status));
 
     const actionsCell = document.createElement('td');
     actionsCell.className = 'row-actions';
@@ -227,7 +245,7 @@ function renderReservas(reservas) {
   }`;
 }
 
-// GET /Reserva deve retornar uma lista JSON; qualquer outro formato é mostrado como erro.
+// GET /reserva deve retornar uma lista JSON; qualquer outro formato é mostrado como erro.
 async function carregarLista() {
   const loadListButton = document.getElementById('load-list-button');
   loadListButton.disabled = true;
@@ -239,7 +257,7 @@ async function carregarLista() {
     const resultado = await requestReserva(API_RESERVAS_URL);
 
     if (!Array.isArray(resultado)) {
-      throw new Error('A rota GET /Reserva precisa retornar uma lista (array JSON).');
+      throw new Error('A rota GET /reserva precisa retornar uma lista (array JSON).');
     }
 
     renderReservas(resultado);
@@ -255,8 +273,81 @@ async function carregarLista() {
   }
 }
 
+function renderReservasEmpresa(reservas) {
+  companyReservationsTable.replaceChildren();
+
+  if (!reservas.length) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.className = 'table-message';
+    cell.colSpan = 5;
+    cell.textContent = 'Nenhuma reserva foi retornada para esta empresa.';
+    row.append(cell);
+    companyReservationsTable.append(row);
+    return;
+  }
+
+  reservas.forEach((reserva) => {
+    const row = document.createElement('tr');
+    appendCell(row, reserva.id);
+    appendCell(row, reserva.nome);
+    appendCell(row, reserva.cpfCnpj);
+    appendCell(row, reserva.codigo);
+    appendCell(row, statusLabel(reserva.status));
+    companyReservationsTable.append(row);
+  });
+}
+
+async function carregarReservasEmpresa(event) {
+  event.preventDefault();
+  const empresaId = companyIdInput.value.trim();
+  if (!empresaId || Number(empresaId) < 1) {
+    companyFeedback.textContent = 'Informe um ID de empresa válido.';
+    companyFeedback.classList.add('feedback--error');
+    companyFeedback.hidden = false;
+    return;
+  }
+
+  const searchButton = document.getElementById('search-company-button');
+  searchButton.disabled = true;
+  searchButton.textContent = 'Buscando...';
+  companyFeedback.hidden = true;
+
+  try {
+    const resultado = await requestReserva(
+      `${API_RESERVAS_URL}/empresa/${encodeURIComponent(empresaId)}`
+    );
+    const reservas = Array.isArray(resultado) ? resultado : [resultado];
+    if (reservas.some((reserva) => !reserva || typeof reserva !== 'object')) {
+      throw new Error('A API retornou dados inválidos para a consulta por empresa.');
+    }
+
+    renderReservasEmpresa(reservas);
+    companyFeedback.textContent = `${reservas.length} ${
+      reservas.length === 1 ? 'reserva retornada' : 'reservas retornadas'
+    } para a empresa ${empresaId}.`;
+    companyFeedback.classList.remove('feedback--error');
+    companyFeedback.hidden = false;
+  } catch (error) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.className = 'table-message feedback--error';
+    cell.colSpan = 5;
+    cell.textContent = error.message;
+    row.append(cell);
+    companyReservationsTable.replaceChildren(row);
+    companyFeedback.textContent = error.message;
+    companyFeedback.classList.add('feedback--error');
+    companyFeedback.hidden = false;
+  } finally {
+    searchButton.disabled = false;
+    searchButton.textContent = 'Buscar empresa';
+  }
+}
+
 function abrirFormularioNovo() {
   reservationForm.reset();
+  document.getElementById('reservation-form-status').value = 'A';
   document.getElementById('form-reservation-id').value = '';
   document.getElementById('dialog-title').textContent = 'Nova reserva';
   saveReservationButton.textContent = 'Salvar reserva';
@@ -285,6 +376,8 @@ function abrirFormularioEdicao() {
     document.getElementById('reservation-code').textContent === '—'
       ? ''
       : document.getElementById('reservation-code').textContent;
+  document.getElementById('reservation-form-status').value =
+    document.getElementById('reservation-status-input').value;
   document.getElementById('dialog-title').textContent = `Editar reserva ${reservaAtualId}`;
   saveReservationButton.textContent = 'Salvar alterações';
   clearFormFeedback();
@@ -296,6 +389,7 @@ function obterDadosFormulario() {
     nome: document.getElementById('reservation-name-input').value.trim(),
     cpfCnpj: document.getElementById('reservation-document-input').value.trim(),
     codigo: document.getElementById('reservation-code-input').value.trim(),
+    status: document.getElementById('reservation-form-status').value,
   };
 }
 
@@ -365,7 +459,7 @@ async function desativarReserva() {
   }
 
   const confirmou = window.confirm(
-    `Deseja desativar a reserva ${reservaAtualId}? O controller usa DELETE para marcar o status como "D".`
+    `Deseja excluir a reserva ${reservaAtualId}? O controller usa DELETE para marcar o status como "D".`
   );
   if (!confirmou) {
     return;
@@ -382,8 +476,8 @@ async function desativarReserva() {
     );
 
     reservaAtualId = null;
-    showEmptyState('Reserva desativada', 'A rota de desativação foi concluída.');
-    showFeedback(getSuccessMessage(resultado, `A reserva ${idDesativado} foi desativada.`));
+    showEmptyState('Reserva excluída', 'A operação DELETE foi concluída.');
+    showFeedback(getSuccessMessage(resultado, `A reserva ${idDesativado} foi excluída.`));
 
     if (listaCarregada) {
       await carregarLista();
@@ -392,6 +486,41 @@ async function desativarReserva() {
     showFeedback(error.message, 'error');
   } finally {
     deactivateButton.disabled = false;
+  }
+}
+
+async function atualizarStatusReserva(event) {
+  event.preventDefault();
+  if (!reservaAtualId) {
+    showFeedback('Consulte uma reserva antes de atualizar o status.', 'error');
+    return;
+  }
+
+  const button = document.getElementById('update-status-button');
+  const status = document.getElementById('reservation-status-input').value;
+  button.disabled = true;
+  button.textContent = 'Atualizando...';
+
+  try {
+    const resultado = await requestReserva(
+      `${API_RESERVAS_URL}/${encodeURIComponent(reservaAtualId)}/status`,
+      { method: 'PATCH', body: { status } }
+    );
+    const id = reservaAtualId;
+    const detailError = await carregarReserva(id, { reportError: false });
+    if (listaCarregada) {
+      await carregarLista();
+    }
+    if (detailError) {
+      showFeedback(detailError, 'error');
+    } else {
+      showFeedback(getSuccessMessage(resultado, 'Status da reserva atualizado com sucesso.'));
+    }
+  } catch (error) {
+    showFeedback(error.message, 'error');
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Atualizar status';
   }
 }
 
@@ -417,6 +546,8 @@ document.getElementById('deactivate-reservation-button')
 document.getElementById('load-list-button')
   .addEventListener('click', carregarLista);
 reservationForm.addEventListener('submit', salvarReserva);
+document.getElementById('status-form').addEventListener('submit', atualizarStatusReserva);
+companySearchForm.addEventListener('submit', carregarReservasEmpresa);
 
 // Os botões de detalhes da tabela são tratados no pai para atender linhas dinâmicas.
 reservationsTable.addEventListener('click', async (event) => {
@@ -441,5 +572,5 @@ function fecharFormulario() {
 document.getElementById('close-dialog-button').addEventListener('click', fecharFormulario);
 document.getElementById('cancel-dialog-button').addEventListener('click', fecharFormulario);
 
-// Ao abrir a tela, faz o GET de teste solicitado: http://localhost:8082/Reserva/1.
+// Ao abrir a tela, faz o GET inicial em /reserva/1.
 carregarReserva('1');

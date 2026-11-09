@@ -29,7 +29,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -185,7 +186,8 @@ code {
   gap: 8px;
 }
 
-input {
+input,
+select {
   min-width: 0;
   min-height: 42px;
   padding: 0 12px;
@@ -195,7 +197,8 @@ input {
   color: #172033;
 }
 
-input:focus {
+input:focus,
+select:focus {
   border-color: var(--color-primary);
   outline: 3px solid rgb(80 70 229 / 14%);
 }
@@ -466,6 +469,30 @@ tbody tr:last-child td {
   font-weight: 400;
 }
 
+.form-field select {
+  width: 100%;
+  font-weight: 400;
+}
+
+.status-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 17px;
+  border-top: 1px solid var(--color-border);
+}
+
+.status-form .form-field {
+  flex: 0 1 220px;
+  margin: 0;
+}
+
+.company-panel {
+  margin-top: 20px;
+  padding: 24px;
+}
+
 .form-note {
   margin: 2px 0 18px;
   font-size: 12px;
@@ -540,6 +567,15 @@ tbody tr:last-child td {
   .detail-actions {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .status-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .status-form .form-field {
+    flex-basis: auto;
   }
 
   .details {

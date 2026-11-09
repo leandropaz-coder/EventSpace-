@@ -27,6 +27,9 @@ public class Reserva{
     private String nome;
     private String cpfCnpj;
     private String codigo;
+    private String status = "A";
+    private LocalDateTime dataCadastro;
+    private LocalDateTime dataAtualizacao;
 
 // Getters e Setters
 
@@ -62,13 +65,27 @@ public class Reserva{
         this.codigo = codigo;
     }
 
-    public void setStatus(String d) {
+    public String getStatus() {
+        return status;
     }
 
-    public void setDataCadastro(LocalDateTime now) {
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setDataAtualizacao(LocalDateTime now) {
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
 
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }//fim da minha classe.

@@ -18,6 +18,7 @@ import java.util.List;
         @Column(unique = true)
         private String cnpj;
         private String inscricaoEstadual;
+        private String status = "A";
         @OneToMany(mappedBy = "empresa")
         private List<Usuario> usuarios;
     // Criar getter e setter
@@ -63,6 +64,14 @@ import java.util.List;
         this.inscricaoEstadual = inscricaoEstadual;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -71,4 +80,3 @@ import java.util.List;
         this.usuarios = usuarios;
     }
 }//fim da minha classe.
-

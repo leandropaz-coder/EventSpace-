@@ -1,6 +1,6 @@
 // Endereço e caminho do recurso seguem as anotações do ClienteController.
 const API_BASE_URL = 'http://localhost:8082';
-const CLIENTES_ENDPOINT = '/Cliente';
+const CLIENTES_ENDPOINT = '/cliente';
 const TOKEN_STORAGE_KEY = 'eventspace.jwt';
 
 // Usa a credencial guardada pelo login em todas as rotas protegidas do controller.
@@ -65,24 +65,38 @@ async function lerResposta(resposta) {
 }
 
 // Traduz erros HTTP comuns em mensagens que ajudam a pessoa a resolver o problema.
-function mensagemDeErro(resposta, dados) {
-  if (resposta.status === 404) {
+function mensagemDeErro(status, dados) {
+  if (status === 400) {
+    return 'Os dados enviados são inválidos. Confira os campos do formulário.';
+  }
+  if (status === 401) {
+    return 'Sua sessão expirou ou o token é inválido. Entre novamente para continuar.';
+  }
+  if (status === 404) {
     return 'Cliente não encontrado. Confira o ID e tente novamente.';
   }
-  if (resposta.status === 400) {
-    return 'Os dados enviados são inválidos. Confira os campos do formulário.';
+  if (status === 405) {
+    return 'A API não permite esse método nesta rota. Confira a URL e o método HTTP enviados.';
+  }
+  if (status === 409) {
+    return 'Não foi possível concluir a operação porque ela conflita com os dados existentes.';
+  }
+  if (status === 500) {
+    return 'O servidor encontrou um erro ao processar a solicitação. Tente novamente mais tarde.';
   }
   if (typeof dados === 'string' && dados.trim()) {
     return dados;
   }
   if (dados && typeof dados === 'object') {
-    return dados.message || dados.mensagem || `A API retornou o erro HTTP ${resposta.status}.`;
+    return dados.message || dados.mensagem || `A API retornou o erro HTTP ${status}.`;
   }
-  return `A API retornou o erro HTTP ${resposta.status}.`;
+  return `A API retornou o erro HTTP ${status}.`;
 }
 
 // Centraliza fetch, cabeçalhos JSON, leitura de respostas e tratamento de falhas de rede.
 async function requisicaoApi(caminho, opcoes = {}) {
+  const url = `${API_BASE_URL}${caminho}`;
+  const metodo = opcoes.method || 'GET';
   const cabecalhos = new Headers(opcoes.headers || {});
   cabecalhos.set('accept', '*/*');
   cabecalhos.set('Authorization', authorizationHeader());
@@ -90,17 +104,20 @@ async function requisicaoApi(caminho, opcoes = {}) {
 
   let resposta;
   try {
-    resposta = await fetch(`${API_BASE_URL}${caminho}`, {
+    resposta = await fetch(url, {
       ...opcoes,
       headers: cabecalhos,
     });
-  } catch {
+  } catch (erro) {
+    console.error(`[Clientes API] Falha de rede em ${metodo} ${url}`, erro);
     throw new Error('Não foi possível conectar ao backend. Verifique se a API está ativa em localhost:8082 e se o CORS está configurado.');
   }
 
+  console.info(`[Clientes API] HTTP ${resposta.status} ${metodo} ${url}`);
   const dados = await lerResposta(resposta);
   if (!resposta.ok) {
-    throw new Error(mensagemDeErro(resposta, dados));
+    console.error(`[Clientes API] HTTP ${resposta.status} em ${metodo} ${url}`, dados);
+    throw new Error(mensagemDeErro(resposta.status, dados));
   }
   return dados;
 }
@@ -187,7 +204,7 @@ function criarBotaoAcao(rotulo, acao, id, perigoso = false) {
   return botao;
 }
 
-// GET /Cliente: busca todos os clientes e atualiza o conteúdo da tabela.
+// GET /cliente: busca todos os clientes e atualiza o conteúdo da tabela.
 async function carregarClientes({ manterMensagem = false } = {}) {
   if (!manterMensagem) limparMensagem();
   elementos.contador.textContent = 'Carregando...';
@@ -208,7 +225,7 @@ async function carregarClientes({ manterMensagem = false } = {}) {
   }
 }
 
-// GET /Cliente/{id}: apresenta os dados da consulta em um cartão de detalhes.
+// GET /cliente/{id}: apresenta os dados da consulta em um cartão de detalhes.
 async function consultarCliente(id) {
   elementos.detalhes.replaceChildren();
   const carregando = document.createElement('p');
@@ -251,7 +268,7 @@ async function consultarCliente(id) {
   }
 }
 
-// Limpa os campos e prepara o formulário para a rota POST /Cliente.
+// Limpa os campos e prepara o formulário para a rota POST /cliente.
 function abrirCadastro() {
   elementos.form.reset();
   elementos.id.value = '';
@@ -261,7 +278,7 @@ function abrirCadastro() {
   elementos.nome.focus();
 }
 
-// GET /Cliente/{id}: carrega os dados atuais antes de permitir uma atualização.
+// GET /cliente/{id}: carrega os dados atuais antes de permitir uma atualização.
 async function abrirEdicao(id) {
   limparMensagem();
   try {
@@ -281,7 +298,7 @@ async function abrirEdicao(id) {
   }
 }
 
-// Envia POST para cadastro e PUT/{id} para atualização, usando o mesmo DTO da API.
+// Envia POST /cliente para cadastro e PUT /cliente/{id} para atualização.
 async function salvarCliente(evento) {
   evento.preventDefault();
   const id = elementos.id.value;
@@ -319,7 +336,7 @@ async function salvarCliente(evento) {
   }
 }
 
-// PATCH /Cliente/{id}/status alterna entre ativo (A) e desativado (D).
+// PATCH /cliente/{id}/status alterna entre ativo (A) e desativado (D).
 async function alternarStatus(id) {
   const cliente = clientes.find((item) => String(item.id) === String(id));
   const novoStatus = cliente?.status === 'D' ? 'A' : 'D';
@@ -336,7 +353,7 @@ async function alternarStatus(id) {
   }
 }
 
-// DELETE /Cliente/{id} marca o status como D no backend; não apaga o registro do banco.
+// DELETE /cliente/{id} marca o status como D no backend; não apaga o registro do banco.
 async function excluirCliente(id) {
   if (!window.confirm(`Deseja desativar o cliente #${id}?`)) return;
 
@@ -380,6 +397,6 @@ elementos.tabela.addEventListener('click', (evento) => {
   if (action === 'excluir') excluirCliente(id);
 });
 
-// Ao iniciar, testa explicitamente GET /Cliente/0 e também carrega a listagem completa.
+// Ao iniciar, consulta GET /cliente/0 e carrega a listagem completa.
 consultarCliente(0);
 carregarClientes();

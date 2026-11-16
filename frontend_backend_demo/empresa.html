@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define a codificação usada para os acentos e demais caracteres do português. -->
+  <meta charset="UTF-8">
+  <!-- Faz o layout adaptar-se a celulares e computadores. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Explica a finalidade da tela nos resultados e prévias do navegador. -->
+  <meta name="description" content="Cadastro e consulta de empresas no EventSpace">
+  <title>Empresas | EventSpace</title>
+  <!-- Carrega primeiro o estilo da tela e depois os estilos da navegação compartilhada. -->
+  <link rel="stylesheet" href="css/empresa.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <!-- O tema global vem por último para padronizar as cores sem substituir os layouts locais. -->
+  <link rel="stylesheet" href="css/theme.css">
+  <!-- Scripts adiados aguardam o navegador interpretar o HTML antes de procurar seus elementos. -->
+  <script src="js/sidebar.js" defer></script>
+  <script src="js/empresa.js" defer></script>
+</head>
+<body>
+  <!-- Agrupa o menu fixo e o conteúdo da tela. -->
+  <div class="app-shell">
+    <!-- A navegação lateral mantém as páginas administrativas acessíveis. -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <a class="brand" href="painel.html" aria-label="EventSpace, painel principal">
+        <span class="brand__mark" aria-hidden="true">E</span>
+        <span class="brand__name">EventSpace</span>
+      </a>
+      <p class="sidebar__caption">GESTÃO</p>
+      <nav aria-label="Navegação principal">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="painel.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Painel principal</span></a></li>
+          <li><a class="nav-link" href="usuario.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Usuários</span></a></li>
+          <li><a class="nav-link is-active" href="empresa.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V5l7-2v18m0-14h7v14M8 8h1m-1 4h1m-1 4h1m6-4h1m-1 4h1"/></svg><span>Empresas</span></a></li>
+          <li><a class="nav-link" href="sala.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9v17M15 9h4a1 1 0 0 1 1 1v11M2 21h20M8 9h3m-3 4h3m1 8v-4"/></svg><span>Salas</span></a></li>
+          <li><a class="nav-link" href="curso.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H20v16H5.5A2.5 2.5 0 0 0 3 21zM3 5.5v13M7 7h9m-9 4h9"/></svg><span>Cursos</span></a></li>
+          <li><a class="nav-link" href="cliente.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6m1-15.5a3.5 3.5 0 0 1 0 6.8M18 14c2.2.8 3.5 2.8 3.5 6"/></svg><span>Clientes</span></a></li>
+          <li><a class="nav-link" href="reserva.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4m-7 8 2 2 4-4"/></svg><span>Reservas</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar__bottom">
+        <p class="sidebar__hint">Gestão simples para cada evento.</p>
+        <button class="nav-link logout-button" id="logout-button" type="button">
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- A camada escurecida fecha o menu lateral em telas pequenas. -->
+    <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Fechar menu"></button>
+
+    <!-- O conteúdo principal permanece ao lado do menu em telas largas. -->
+    <div class="main-area">
+      <header class="topbar">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="topbar__label">
+          <span class="topbar__eyebrow">EVENTSPACE</span>
+          <span>Gestão de empresas</span>
+        </div>
+      </header>
+
+      <main class="company-page">
+        <!-- O cabeçalho apresenta a tarefa principal e a ação de recarregar a lista. -->
+        <header class="company-page__heading">
+          <div>
+            <p class="company-eyebrow">CADASTROS</p>
+            <h1>Empresas</h1>
+            <p>Cadastre empresas e consulte os dados registrados no EventSpace.</p>
+          </div>
+          <button class="company-button company-button--secondary" id="reload-companies" type="button">Atualizar lista</button>
+        </header>
+
+        <!-- O formulário envia somente os campos aceitos pelo DTO do backend. -->
+        <section class="company-card" aria-labelledby="company-form-title">
+          <div class="company-card__heading">
+            <div>
+              <p class="company-eyebrow" id="company-form-eyebrow">NOVA EMPRESA</p>
+              <h2 id="company-form-title">Dados cadastrais</h2>
+            </div>
+          </div>
+          <form id="company-form">
+            <div class="company-form__grid">
+              <label class="company-field" for="company-legal-name">
+                <span>Razão social</span>
+                <input id="company-legal-name" name="razaoSocial" type="text" maxlength="160" autocomplete="organization" required>
+              </label>
+              <label class="company-field" for="company-trade-name">
+                <span>Nome fantasia</span>
+                <input id="company-trade-name" name="nomeFantasia" type="text" maxlength="160" autocomplete="organization-title" required>
+              </label>
+              <label class="company-field" for="company-cnpj">
+                <span>CNPJ</span>
+                <input id="company-cnpj" name="cnpj" type="text" inputmode="numeric" maxlength="18" placeholder="00.000.000/0000-00" required>
+              </label>
+              <label class="company-field" for="company-state-registration">
+                <span>Inscrição estadual</span>
+                <input id="company-state-registration" name="inscricaoEstadual" type="text" maxlength="40">
+              </label>
+            </div>
+            <p class="company-feedback" id="company-feedback" role="status" aria-live="polite" hidden></p>
+            <div class="company-form__actions">
+              <button class="company-button company-button--secondary" id="cancel-company-edit" type="button" hidden>Cancelar edição</button>
+              <button class="company-button company-button--primary" id="save-company" type="submit">Cadastrar empresa</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- A tabela apresenta as empresas retornadas pelo GET da API. -->
+        <section class="company-card company-list" aria-labelledby="company-list-title">
+          <div class="company-card__heading">
+            <div>
+              <p class="company-eyebrow">REGISTROS</p>
+              <h2 id="company-list-title">Empresas cadastradas</h2>
+              <p id="company-count" role="status" aria-live="polite">Carregando empresas...</p>
+            </div>
+          </div>
+          <div class="company-table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Razão social</th>
+                  <th scope="col">Nome fantasia</th>
+                  <th scope="col">CNPJ</th>
+                  <th scope="col">Inscrição estadual</th>
+                  <th scope="col">Usuários</th>
+                  <th scope="col">Status</th>
+                  <th scope="col"><span class="visually-hidden">Ações</span></th>
+                </tr>
+              </thead>
+              <tbody id="company-list">
+                <tr><td class="company-table__message" colspan="8">Carregando registros...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="company-card company-list" id="company-users-section" aria-labelledby="company-users-title" hidden>
+          <div class="company-card__heading">
+            <div>
+              <p class="company-eyebrow">VÍNCULOS</p>
+              <h2 id="company-users-title">Usuários da empresa</h2>
+              <p id="company-users-count" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="company-table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">CPF</th>
+                  <th scope="col">Data de nascimento</th>
+                  <th scope="col">Empresa</th>
+                </tr>
+              </thead>
+              <tbody id="company-users-list">
+                <tr><td class="company-table__message" colspan="5">Selecione uma empresa para consultar os usuários.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

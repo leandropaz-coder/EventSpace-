@@ -1,0 +1,218 @@
+/* Medidas e cores compartilhadas pela navegação de todas as páginas internas. */
+:root {
+  --sidebar-width: 260px;
+  --sidebar-background: #17243a;
+  --sidebar-text: #c1ccda;
+  --sidebar-muted: #9aa8bd;
+  --sidebar-accent: #4278f5;
+}
+
+/* A navegação fica fora do fluxo para continuar visível durante a rolagem. */
+.sidebar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: var(--sidebar-width);
+  flex-direction: column;
+  padding: 28px 18px 20px;
+  color: #fff;
+  background: var(--sidebar-background);
+}
+
+/* A marca leva de volta ao painel inicial. */
+.sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.brand__mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--sidebar-accent);
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.brand__name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.sidebar__caption {
+  margin: 48px 10px 14px;
+  color: var(--sidebar-muted);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.4px;
+}
+
+/* Os links mantêm a navegação tradicional entre arquivos HTML. */
+.nav-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar .nav-link {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  gap: 13px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--sidebar-text);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  text-decoration: none;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus-visible {
+  color: #fff;
+  background: #243650;
+}
+
+.sidebar .nav-link.is-active {
+  color: #fff;
+  background: #2a4265;
+  box-shadow: inset 3px 0 #75a0ff;
+}
+
+.sidebar .nav-link svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.sidebar__bottom {
+  display: grid;
+  gap: 13px;
+  margin-top: auto;
+}
+
+.sidebar__hint {
+  margin: 0 10px 4px;
+  color: var(--sidebar-muted);
+  font-size: 11px;
+}
+
+.sidebar .logout-button {
+  border-top: 1px solid #2a3850;
+  border-radius: 0;
+  color: #d6deea;
+}
+
+/* O conteúdo começa ao lado da sidebar fixa em telas largas. */
+.main-area {
+  min-height: 100vh;
+  margin-left: var(--sidebar-width);
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.mobile-topbar {
+  display: none;
+}
+
+.menu-toggle:focus-visible,
+.sidebar .nav-link:focus-visible {
+  outline: 3px solid #9bb9ff;
+  outline-offset: 3px;
+}
+
+/* Em telas estreitas, a navegação vira um drawer aberto pelo botão. */
+@media (max-width: 700px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 180ms ease;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .main-area {
+    margin-left: 0;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dfe5eb;
+    border-radius: 9px;
+    color: #26364d;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e8ecf3;
+    color: #4a5668;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .menu-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  .sidebar-backdrop.is-visible {
+    position: fixed;
+    z-index: 15;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgb(15 23 42 / 45%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar .nav-link {
+    transition: none;
+  }
+}

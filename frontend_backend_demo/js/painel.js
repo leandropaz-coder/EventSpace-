@@ -62,9 +62,13 @@ if (!authToken || !authToken.trim()) {
 
 // Lê a resposta como texto primeiro, pois alguns endpoints podem responder sem JSON.
 async function readResponse(response) {
+  // Ler primeiro como texto permite lidar com respostas vazias (por exemplo,
+  // HTTP 204) sem provocar erro ao tentar convertê-las para JSON.
   const responseText = await response.text();
   if (!responseText) return null;
 
+  // Só tenta interpretar JSON quando a API declara esse formato; respostas
+  // textuais são preservadas para exibir mensagens de erro úteis.
   const contentType = response.headers.get('content-type') || '';
   if (contentType.includes('application/json')) {
     try {
@@ -81,6 +85,8 @@ async function readResponse(response) {
 async function fetchList(endpoint) {
   let response;
   try {
+    // Cada consulta envia JWT e preferência por JSON para acessar recursos
+    // protegidos sem acoplar o código a uma biblioteca externa.
     response = await fetch(endpoint, {
       method: 'GET',
       headers: {
@@ -92,6 +98,8 @@ async function fetchList(endpoint) {
     throw new Error(`Não foi possível conectar à API em ${API_BASE_URL}. Verifique se o backend está ativo e se o CORS está configurado.`);
   }
 
+  // A resposta do corpo é lida antes de testar o status para que mensagens
+  // enviadas pelo servidor também possam ser aproveitadas em erros HTTP.
   const responseBody = await readResponse(response);
   if (!response.ok) {
     const message = responseBody && typeof responseBody === 'object'
@@ -126,9 +134,12 @@ async function loadMetrics() {
   elements.apiNote.textContent = 'Consultando os dados do EventSpace...';
 
   Object.values(elements.metrics).forEach((metric) => {
+    // Zera os cartões visualmente enquanto as novas respostas ainda não chegaram.
     showMetric(metric, null, 'Carregando dados...');
   });
 
+  // As três rotas são independentes: allSettled aguarda todas sem descartar
+  // métricas que tenham sucesso quando outra consulta falhar.
   const results = await Promise.allSettled([
     fetchList(ENDPOINTS.users),
     fetchList(ENDPOINTS.clients),
@@ -138,9 +149,13 @@ async function loadMetrics() {
   let failedRequests = 0;
 
   results.forEach((result, index) => {
+    // A ordem das promessas corresponde à lista de nomes acima, permitindo
+    // atualizar cada cartão com o resultado de sua própria rota.
     const metric = elements.metrics[metricNames[index]];
 
     if (result.status === 'fulfilled') {
+      // fetchList validou que o valor é uma lista; seu tamanho representa a
+      // quantidade retornada e é formatado para o idioma português.
       const count = result.value.length;
       const noun = count === 1 ? metric.label.slice(0, -1) : metric.label;
       showMetric(metric, count, `${count} ${noun} retornados pela API`);
@@ -148,6 +163,8 @@ async function loadMetrics() {
     }
 
     failedRequests += 1;
+    // Erros individuais aparecem no cartão correspondente e também no console
+    // para facilitar o diagnóstico durante o desenvolvimento.
     const message = result.reason instanceof Error
       ? result.reason.message
       : 'Ocorreu um erro inesperado ao consultar a API.';
@@ -239,15 +256,20 @@ if (carouselPaused) {
 
 // Exibe somente o slide escolhido e mantém os leitores de tela informados.
 function showCarouselSlide(index) {
+  // O resto com ajuste positivo faz os índices circularem nos dois sentidos:
+  // depois do último slide volta ao primeiro, e antes do primeiro vai ao último.
   activeSlideIndex = (index + carouselSlides.length) % carouselSlides.length;
 
   carouselSlides.forEach((slide, slideIndex) => {
+    // Mantém apenas o slide atual visível e informa seu estado aos leitores
+    // de tela por meio de aria-hidden.
     const isActive = slideIndex === activeSlideIndex;
     slide.classList.toggle('is-active', isActive);
     slide.setAttribute('aria-hidden', String(!isActive));
   });
 
   carouselDots.forEach((dot, dotIndex) => {
+    // Os indicadores acompanham o slide e expõem a seleção via aria-pressed.
     const isActive = dotIndex === activeSlideIndex;
     dot.classList.toggle('is-active', isActive);
     dot.setAttribute('aria-pressed', String(isActive));
@@ -258,9 +280,15 @@ function showCarouselSlide(index) {
 
 // Inicia a troca automática somente quando o usuário não pediu movimento reduzido.
 function startCarouselTimer() {
+  // Limpa qualquer intervalo anterior para impedir vários cronômetros
+  // avançando a apresentação simultaneamente.
   window.clearInterval(carouselTimer);
+  // Respeita a preferência por menos movimento, a aba em segundo plano e o
+  // caso em que não há slides suficientes para alternar.
   if (carouselPaused || document.hidden || carouselSlides.length < 2) return;
 
+  // Um único intervalo avança um slide a cada cinco segundos; o helper também
+  // atualiza botões e contador para manter toda a interface sincronizada.
   carouselTimer = window.setInterval(() => {
     showCarouselSlide(activeSlideIndex + 1);
   }, 5000);

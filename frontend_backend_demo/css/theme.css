@@ -1,0 +1,239 @@
+/* Tokens globais: todas as páginas usam estas mesmas cores e medidas base. */
+:root {
+  color-scheme: light;
+  --es-accent: #c59b27;
+  --es-accent-strong: #a77f17;
+  --es-accent-soft: #fbf6e8;
+  --es-page: #f4f5f7;
+  --es-surface: #ffffff;
+  --es-ink: #1e293b;
+  --es-muted: #64748b;
+  --es-border: #e2e8f0;
+  --es-field: #f1f5f9;
+  --es-focus: #c59b27;
+  --es-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  --es-radius: 12px;
+  --sidebar-width: 260px;
+  --sidebar-background: #0b132b;
+  --sidebar-bg: #0b132b;
+  --sidebar-accent: var(--es-accent);
+  --accent: var(--es-accent);
+  --brand: var(--es-accent);
+  --color-primary: var(--es-accent);
+  --color-primary-dark: var(--es-accent-strong);
+  --color-green: var(--es-accent);
+  --color-green-dark: var(--es-accent-strong);
+  --color-green-soft: var(--es-accent-soft);
+  --color-page: var(--es-page);
+  --page-bg: var(--es-page);
+  --background: var(--es-page);
+  --bg: var(--es-page);
+  --surface: var(--es-surface);
+  --color-surface: var(--es-surface);
+  --ink: var(--es-ink);
+  --color-ink: var(--es-ink);
+  --muted: var(--es-muted);
+  --color-muted: var(--es-muted);
+  --line: var(--es-border);
+  --color-border: var(--es-border);
+  --focus: var(--es-focus);
+  --radius: var(--es-radius);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+/* O fundo e a tipografia ficam iguais até quando uma página tem CSS próprio. */
+body {
+  color: var(--es-ink);
+  background-color: var(--es-page);
+}
+
+/* Títulos usam azul-chumbo e textos auxiliares usam o cinza corporativo. */
+h1,
+h2,
+h3,
+.page-header h1,
+.hero h1,
+.welcome h1,
+.workspace-card h3 {
+  color: var(--es-ink);
+}
+
+.eyebrow,
+.header-label,
+.intro__description,
+.list-header p,
+.list-description,
+.form-note,
+.metric-card__label,
+.metric-card__meta,
+.section-heading p {
+  color: var(--es-muted);
+}
+
+/* Campos de texto compartilham fundo, borda e foco dourado acessível. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+select,
+.search-form input,
+.form-field input {
+  border-color: var(--es-border);
+  color: var(--es-ink);
+  background-color: var(--es-field);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+textarea:focus,
+select:focus,
+.search-form input:focus,
+.form-field input:focus {
+  border-color: var(--es-focus);
+  outline-color: var(--es-focus);
+  box-shadow: 0 0 0 3px rgba(197, 155, 39, 0.16);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8491a3;
+}
+
+/* Ações principais e marcas usam dourado com texto escuro para bom contraste. */
+.button--primary,
+.submit-button,
+.hero__button,
+.primary-btn,
+.btn {
+  border-color: transparent;
+  color: #1e293b;
+  background: var(--es-accent);
+}
+
+.button--primary:hover,
+.submit-button:hover,
+.hero__button:hover,
+.primary-btn:hover,
+.btn:hover {
+  color: #1e293b;
+  background: var(--es-accent-strong);
+}
+
+.brand__icon,
+.brand__mark,
+.brand__symbol,
+.login__mark {
+  color: #1e293b;
+  background: var(--es-accent);
+}
+
+.brand__name,
+.brand {
+  color: var(--es-ink);
+}
+
+/* Superfícies elevadas mantêm bordas suaves e sombras discretas em cada módulo. */
+.login-card,
+.metric-card,
+.workspace-card,
+.module-card,
+.rooms-panel,
+.reservation-panel,
+.list-panel,
+.lookup-panel,
+.clients-panel,
+.form-card,
+.info-card,
+.panel {
+  border-color: var(--es-border);
+  border-radius: var(--es-radius);
+  background-color: var(--es-surface);
+  box-shadow: var(--es-shadow);
+}
+
+.welcome {
+  border-color: #e9dfbf;
+  background: linear-gradient(112deg, #fff 20%, #fbf6e8 100%);
+}
+
+.topbar {
+  border-color: var(--es-border);
+}
+
+/* A barra lateral mantém o azul-marinho da identidade e ganha realces dourados. */
+.sidebar {
+  color: #fff;
+  background: var(--sidebar-background);
+}
+
+.sidebar .brand,
+.sidebar .brand__name {
+  color: #fff;
+}
+
+.sidebar__caption,
+.sidebar__hint {
+  color: #aab4c7;
+}
+
+.sidebar .nav-link {
+  color: #d3dae6;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus-visible {
+  color: #fff;
+  background: #1c2943;
+}
+
+.sidebar .nav-link.is-active {
+  color: #fff;
+  background: #24314c;
+  box-shadow: inset 3px 0 var(--es-accent);
+}
+
+.sidebar .logout-button {
+  border-color: #28334a;
+  color: #e1e6ee;
+}
+
+.menu-toggle,
+.button--secondary,
+.button--text,
+.refresh-button,
+.row-action {
+  border-color: var(--es-border);
+  color: var(--es-ink);
+  background-color: var(--es-surface);
+}
+
+.menu-toggle:hover,
+.button--secondary:hover,
+.button--text:hover,
+.refresh-button:hover,
+.row-action:hover {
+  background-color: var(--es-field);
+}
+
+/* Indicadores e detalhes do painel usam o mesmo dourado sem colorir estados de erro. */
+.welcome .eyebrow,
+.section-heading .eyebrow,
+.topbar__eyebrow,
+.metric-card__icon--amber,
+.metric-card__icon--green,
+.metric-card__icon--blue {
+  color: var(--es-accent-strong);
+}
+
+.metric-card__icon--amber,
+.metric-card__icon--green,
+.metric-card__icon--blue {
+  background: var(--es-accent-soft);
+}
+
+/* A tabela também reutiliza a borda global e o texto secundário padronizado. */
+th,
+td {
+  border-color: var(--es-border);
+}
+
+th {
+  color: var(--es-muted);
+}

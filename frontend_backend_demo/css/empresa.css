@@ -1,0 +1,293 @@
+/* Tokens locais apontam para as cores globais e mantêm o CSS desta tela autodescritivo. */
+:root {
+  --company-page: var(--es-page, #f4f5f7);
+  --company-surface: var(--es-surface, #ffffff);
+  --company-ink: var(--es-ink, #1e293b);
+  --company-muted: var(--es-muted, #64748b);
+  --company-border: var(--es-border, #e2e8f0);
+  --company-field: var(--es-field, #f1f5f9);
+  --company-accent: var(--es-accent, #c59b27);
+  --company-shadow: var(--es-shadow, 0 10px 25px rgba(0, 0, 0, 0.05));
+}
+
+/* Padroniza o modelo de caixa para que preenchimentos não aumentem a largura inesperadamente. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* O conteúdo central não ultrapassa a área livre ao lado da navegação fixa. */
+.company-page {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 38px clamp(20px, 4vw, 48px) 48px;
+}
+
+/* O título e o botão de atualização compartilham a mesma linha em telas largas. */
+.company-page__heading,
+.company-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.company-page__heading {
+  margin-bottom: 24px;
+}
+
+/* Os rótulos pequenos criam hierarquia sem competir com os títulos. */
+.company-eyebrow {
+  margin: 0 0 7px;
+  color: var(--company-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.company-page h1,
+.company-card h2 {
+  margin: 0;
+  color: var(--company-ink);
+  letter-spacing: -0.035em;
+}
+
+.company-page h1 {
+  font-size: clamp(28px, 4vw, 38px);
+}
+
+.company-page__heading > div > p:last-child,
+.company-card__heading > div > p:last-child {
+  margin: 7px 0 0;
+  color: var(--company-muted);
+  font-size: 13px;
+}
+
+/* Cartões brancos separam o formulário e a tabela visualmente. */
+.company-card {
+  margin-bottom: 18px;
+  padding: clamp(18px, 3vw, 26px);
+  border: 1px solid var(--company-border);
+  border-radius: 14px;
+  background: var(--company-surface);
+  box-shadow: var(--company-shadow);
+}
+
+.company-card__heading {
+  margin-bottom: 20px;
+}
+
+.company-card h2 {
+  font-size: 18px;
+}
+
+/* A grade adapta os campos de quatro colunas para uma coluna em celular. */
+.company-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.company-field {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+  color: var(--company-ink);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.company-field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--company-border);
+  border-radius: 8px;
+  color: var(--company-ink);
+  background: var(--company-field);
+  font: inherit;
+  font-weight: 400;
+}
+
+.company-field input:focus {
+  border-color: var(--company-accent);
+  outline: 3px solid rgba(197, 155, 39, 0.16);
+}
+
+/* Os botões mantêm altura, cantos e estados de foco consistentes. */
+.company-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.company-button[hidden] {
+  display: none;
+}
+
+.company-button:focus-visible {
+  outline: 3px solid rgba(197, 155, 39, 0.35);
+  outline-offset: 2px;
+}
+
+.company-button--primary {
+  color: #1e293b;
+  background: var(--company-accent);
+}
+
+.company-button--primary:hover {
+  background: #a77f17;
+}
+
+.company-button--secondary {
+  border-color: var(--company-border);
+  color: var(--company-ink);
+  background: var(--company-surface);
+}
+
+.company-button--secondary:hover {
+  background: var(--company-field);
+}
+
+.company-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.company-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+/* O feedback explica o resultado sem depender de alertas do navegador. */
+.company-feedback {
+  margin: 16px 0 0;
+  padding: 11px 13px;
+  border: 1px solid var(--company-border);
+  border-radius: 8px;
+  color: var(--company-ink);
+  background: var(--company-field);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.company-feedback[hidden] {
+  display: none;
+}
+
+.company-feedback.is-error {
+  border-color: #efcaca;
+  color: #8d2929;
+  background: #fff4f4;
+}
+
+.company-feedback.is-success {
+  border-color: #c8e3d1;
+  color: #27613a;
+  background: #f1faf3;
+}
+
+.company-list .company-card__heading {
+  margin-bottom: 14px;
+}
+
+.company-table-scroll {
+  overflow-x: auto;
+}
+
+.company-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.company-table-scroll th,
+.company-table-scroll td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--company-border);
+  font-size: 12px;
+}
+
+.company-table-scroll th {
+  color: var(--company-muted);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.company-table__message {
+  padding: 24px 10px;
+  color: var(--company-muted);
+  text-align: center;
+  white-space: normal;
+}
+
+.company-table__message.is-error {
+  color: #8d2929;
+}
+
+.company-row-actions {
+  display: flex;
+  min-width: max-content;
+  gap: 8px;
+}
+
+.company-row-actions .company-button {
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.company-status {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  color: #27613a;
+  background: #f1faf3;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.company-status--inactive {
+  color: #8d2929;
+  background: #fff4f4;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* Em telas estreitas, o título, a ação e o formulário ficam empilhados. */
+@media (max-width: 620px) {
+  .company-page {
+    padding: 24px 16px 36px;
+  }
+
+  .company-page__heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .company-form__grid {
+    grid-template-columns: 1fr;
+  }
+}

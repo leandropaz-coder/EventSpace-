@@ -1,0 +1,43 @@
+.course-actions {
+  min-width: max-content;
+  flex-wrap: wrap;
+}
+
+.course-detail,
+.course-enrollment {
+  margin-top: 20px;
+}
+
+.course-enrollment form {
+  padding: 0 24px 20px;
+}
+
+.enrollment-fields {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.7fr) minmax(180px, 1fr) auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.enrollment-fields .form-field {
+  margin-bottom: 0;
+}
+
+.enrollment-fields .button {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 720px) {
+  .course-enrollment form {
+    padding: 0 18px 18px;
+  }
+
+  .enrollment-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .enrollment-fields .button {
+    margin-bottom: 0;
+  }
+}

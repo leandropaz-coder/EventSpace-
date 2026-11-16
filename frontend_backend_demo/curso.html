@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gerenciamento de cursos do EventSpace">
+  <title>Gerenciar cursos | EventSpace</title>
+  <link rel="stylesheet" href="css/sala.css">
+  <link rel="stylesheet" href="css/curso.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <script src="js/sidebar.js" defer></script>
+  <script src="js/curso.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <a class="brand" href="painel.html" aria-label="EventSpace, painel principal">
+        <span class="brand__mark" aria-hidden="true">E</span>
+        <span class="brand__name">EventSpace</span>
+      </a>
+      <p class="sidebar__caption">GESTÃO</p>
+      <nav aria-label="Navegação principal">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="painel.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Painel principal</span></a></li>
+          <li><a class="nav-link" href="usuario.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Usuários</span></a></li>
+          <li><a class="nav-link" href="empresa.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V5l7-2v18m0-14h7v14M8 8h1m-1 4h1m-1 4h1m6-4h1m-1 4h1"/></svg><span>Empresas</span></a></li>
+          <li><a class="nav-link" href="sala.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9v17M15 9h4a1 1 0 0 1 1 1v11M2 21h20M8 9h3m-3 4h3m1 8v-4"/></svg><span>Salas</span></a></li>
+          <li><a class="nav-link is-active" href="curso.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H20v16H5.5A2.5 2.5 0 0 0 3 21zM3 5.5v13M7 7h9m-9 4h9"/></svg><span>Cursos</span></a></li>
+          <li><a class="nav-link" href="cliente.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6m1-15.5a3.5 3.5 0 0 1 0 6.8M18 14c2.2.8 3.5 2.8 3.5 6"/></svg><span>Clientes</span></a></li>
+          <li><a class="nav-link" href="reserva.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4m-7 8 2 2 4-4"/></svg><span>Reservas</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar__bottom">
+        <p class="sidebar__hint">Gestão simples para cada evento.</p>
+        <button class="nav-link logout-button" id="logout-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg><span>Sair</span></button>
+      </div>
+    </aside>
+    <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Fechar menu"></button>
+    <div class="main-area">
+      <header class="mobile-topbar">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <span>EventSpace <span aria-hidden="true">·</span> Gestão</span>
+      </header>
+
+      <main class="page">
+        <header class="page-header">
+          <span class="header-label">Painel de administração</span>
+        </header>
+
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">CADASTROS</p>
+            <h1 id="page-title">Cursos</h1>
+            <p class="intro__description">Cadastre cursos, gerencie matrículas e acompanhe os alunos.</p>
+          </div>
+          <button class="button button--primary" id="new-course-button" type="button">
+            <span aria-hidden="true">+</span> Novo curso
+          </button>
+        </section>
+
+        <p class="notice">
+          <strong>Sobre a exclusão:</strong> “Desativar” usa <code>DELETE /curso/{id}</code> e altera o status para “D”,
+          preservando o curso e suas matrículas.
+        </p>
+
+        <section class="rooms-panel" aria-labelledby="list-heading">
+          <div class="list-header">
+            <div>
+              <h2 id="list-heading">Lista de cursos</h2>
+              <p id="courses-count">Carregando cursos...</p>
+            </div>
+            <div class="list-tools">
+              <form class="search-form" id="search-form">
+                <label class="visually-hidden" for="search-id">Buscar curso por ID</label>
+                <input id="search-id" type="number" min="1" step="1" placeholder="Buscar por ID">
+                <button class="button button--secondary" type="submit">Buscar</button>
+              </form>
+              <button class="button button--text" id="reload-button" type="button">Atualizar lista</button>
+            </div>
+          </div>
+
+          <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Título</th>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Alunos</th>
+                  <th scope="col">Status</th>
+                  <th scope="col"><span class="visually-hidden">Ações</span></th>
+                </tr>
+              </thead>
+              <tbody id="courses-table">
+                <tr><td class="table-message" colspan="6">Carregando cursos...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="rooms-panel course-detail" id="course-detail" aria-labelledby="course-detail-title" hidden>
+          <div class="list-header">
+            <div>
+              <h2 id="course-detail-title">Detalhes do curso</h2>
+              <p id="course-detail-count"></p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">CPF</th>
+                  <th scope="col">Data de nascimento</th>
+                </tr>
+              </thead>
+              <tbody id="course-students">
+                <tr><td class="table-message" colspan="4">Selecione um curso para consultar os alunos.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="rooms-panel course-enrollment" id="course-enrollment" aria-labelledby="enrollment-title" hidden>
+          <div class="list-header">
+            <div>
+              <h2 id="enrollment-title">Matricular aluno</h2>
+              <p>Informe o ID do usuário para realizar a matrícula neste curso.</p>
+            </div>
+          </div>
+          <form id="enrollment-form">
+            <div class="enrollment-fields">
+              <label class="form-field" for="enrollment-course-id">
+                <span>ID do curso</span>
+                <input id="enrollment-course-id" name="curso_id" type="number" min="1" step="1" required readonly>
+              </label>
+              <label class="form-field" for="enrollment-user-id">
+                <span>ID do usuário</span>
+                <input id="enrollment-user-id" name="usuario_id" type="number" min="1" step="1" required>
+              </label>
+              <button class="button button--primary" id="enroll-button" type="submit">Realizar matrícula</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="room-dialog" id="course-dialog" aria-labelledby="dialog-title">
+    <form id="course-form">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">DADOS DO CURSO</p>
+          <h2 id="dialog-title">Novo curso</h2>
+        </div>
+        <button class="close-button" id="close-dialog" type="button" aria-label="Fechar formulário">×</button>
+      </div>
+
+      <input id="course-id" type="hidden">
+
+      <label class="form-field" for="course-title">
+        <span>Título</span>
+        <input id="course-title" name="titulo" type="text" maxlength="160" autocomplete="off" required>
+      </label>
+
+      <label class="form-field" for="course-description">
+        <span>Descrição</span>
+        <input id="course-description" name="descricao" type="text" maxlength="500" autocomplete="off">
+      </label>
+
+      <p class="form-note">O cadastro e a atualização enviam o título e a descrição para o <code>CursoController</code>.</p>
+
+      <div class="dialog-actions">
+        <button class="button button--text" id="cancel-dialog" type="button">Cancelar</button>
+        <button class="button button--primary" id="save-course-button" type="submit">Salvar curso</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

@@ -15,7 +15,7 @@ services:
     container_name: minha-api
     build: .
     ports:
-      - "8080:80"
+      - "8080:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/aulafull
       - SPRING_DATASOURCE_USERNAME=postgres
